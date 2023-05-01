@@ -81,7 +81,7 @@ public class SecurityConfig {
             //This is for demo purposes only, and should be removed for a real system
             //.antMatchers(HttpMethod.GET, "/api/demouser/user-only").hasAuthority("USER")
             // .antMatchers(HttpMethod.GET, "/api/demouser/admin-only").hasAuthority("ADMIN")
-             .anyRequest().authenticated());
+             .anyRequest().permitAll());
 
     return http.build();
   }
