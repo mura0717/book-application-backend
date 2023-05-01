@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.management.Descriptor;
+
 @Service
 public class HttpRequest implements IHttpRequest {
     @Override
@@ -11,6 +13,7 @@ public class HttpRequest implements IHttpRequest {
                                                       TRequest requestData,
                                                       Class<TResponse> responseDescriptor,
                                                       String apiKey){
+
         var response = WebClient.create()
                 .post()
                 .uri(uri)
