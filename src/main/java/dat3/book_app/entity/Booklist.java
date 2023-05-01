@@ -25,8 +25,5 @@ public class Booklist extends Entities {
     @ManyToOne
     private UserWithRoles user;
 
-
-    @OneToMany(mappedBy = "booklist")
-    private List<OpenAIResult> openAIResults = new ArrayList<>();
 }
 

@@ -18,6 +18,6 @@ public class OpenAIResult extends Entities {
     @Column(name = "result")
     private String result;
 
-    @ManyToOne()
-    private Booklist booklist;
+    @Column(name = "book_reference")
+    private String bookReference;
 }
