@@ -1,5 +1,7 @@
 package dat3.book_app.service.books;
 
+import org.springframework.http.ResponseEntity;
+
 public interface IBookListUpdate<TRequest> {
-    boolean Update(TRequest request);
+    ResponseEntity<String> Update(TRequest request);
 }
