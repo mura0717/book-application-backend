@@ -2,17 +2,29 @@ package dat3.book_app.service.openAI;
 
 import dat3.book_app.dto.openai.requests.OpenAiDavinciPrompt;
 import dat3.book_app.dto.openai.response.OpenAiResponse;
-import dat3.book_app.service.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.reactive.function.client.WebClient;
+import static reactor.core.publisher.Mono.*;
 
-public class OpenAIHttpRequest extends HttpRequest{
+public class OpenAIHttpRequest implements IOpenAIRequest {
     private final String Uri = "https://api.openai.com/v1/completions";
 
     @Value("OpenAI-Api-Key")
     private String apiKey;
 
+    @Override
     public OpenAiResponse request(OpenAiDavinciPrompt request){
-        return postRequest(Uri, OpenAiDavinciPrompt.class,request,
-                OpenAiResponse.class,apiKey);
+        return WebClient.create()
+                .post()
+                .uri(Uri)
+                .header("Authorization",authHeaderValue(apiKey))
+                .body(just(request), OpenAiDavinciPrompt.class)
+                .retrieve()
+                .bodyToMono(OpenAiResponse.class)
+                .block();
+    }
+
+    private String authHeaderValue(String apiToken){
+        return "Bearer " + apiToken;
     }
 }
