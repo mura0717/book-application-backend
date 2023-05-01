@@ -1,7 +1,7 @@
 package dat3.book_app.api;
 
 import dat3.book_app.dto.books.BookListUpdateRequest;
-import org.hibernate.cfg.NotYetImplementedException;
+import dat3.book_app.service.books.IBookListUpdate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
+    private final IBookListUpdate<BookListUpdateRequest> bookUpdate;
+
+    public BookController(IBookListUpdate<BookListUpdateRequest> bookUpdate) {
+        this.bookUpdate = bookUpdate;
+    }
+
     public ResponseEntity<String> UpdateBookList(BookListUpdateRequest request){
-        throw new NotYetImplementedException();
+        return bookUpdate.Update(request);
     }
 }
