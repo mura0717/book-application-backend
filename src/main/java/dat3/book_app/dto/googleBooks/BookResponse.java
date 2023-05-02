@@ -11,4 +11,5 @@ public class BookResponse {
     private String id;
     private String etag;
     private GoogleBookVolumeInfo volumeInfo;
+    private GoogleBooksSaleInfo saleInfo;
 }

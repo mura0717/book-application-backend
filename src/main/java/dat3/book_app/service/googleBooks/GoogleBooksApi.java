@@ -26,8 +26,8 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<BookResponse> byKeyword(String keyword){
-        var uri = String.format("%s?q='%s'",Uri,keyword);
+    public List<BookResponse> asSearch(String query) {
+        var uri = String.format("%s?q='%s'&maxResults=5&filter=paid-ebooks&langRestrict",Uri,query);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }

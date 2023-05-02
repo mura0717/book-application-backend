@@ -17,4 +17,17 @@ public class GoogleBookVolumeInfo {
     private ArrayList<String> categories = new ArrayList<>();
     private String maturityRating;
     private String language;
+    private ImageLinks imageLinks;
+}
+
+@Getter
+@Setter
+@NoArgsConstructor
+class ImageLinks {
+    private String smallThumbnail;
+    private String thumbnail;
+    private String small;
+    private String medium;
+    private String large;
+    private String extraLarge;
 }
