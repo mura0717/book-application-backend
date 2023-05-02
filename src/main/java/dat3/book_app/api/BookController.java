@@ -2,7 +2,7 @@ package dat3.book_app.api;
 
 import dat3.book_app.dto.books.BookListUpdateRequest;
 import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.service.books.IBookListUpdate;
+import dat3.book_app.service.books.BookListUpdate;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api/books")
 @CrossOrigin
 public class BookController {
-    private final IBookListUpdate<BookListUpdateRequest> bookUpdate;
+    private final BookListUpdate bookUpdate;
     private final IGoogleBooksApi googleBooks;
 
-    public BookController(IBookListUpdate<BookListUpdateRequest> bookUpdate, IGoogleBooksApi googleBooks) {
+    public BookController(BookListUpdate bookUpdate, IGoogleBooksApi googleBooks) {
         this.bookUpdate = bookUpdate;
         this.googleBooks = googleBooks;
     }

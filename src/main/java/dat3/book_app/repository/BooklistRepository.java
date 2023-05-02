@@ -4,6 +4,9 @@ import dat3.book_app.entity.Booklist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BooklistRepository extends JpaRepository<Booklist, String> {
+    List<Booklist> findByUser_UsernameLike(String username);
 }
