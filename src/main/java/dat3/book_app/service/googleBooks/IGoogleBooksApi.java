@@ -11,4 +11,6 @@ public interface IGoogleBooksApi {
     List<BookResponse> byAuthor(String author);
 
     List<BookResponse> asSearch(String query);
+
+    List<BookResponse> paginated(String startIndex);
 }
