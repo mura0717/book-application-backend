@@ -40,6 +40,11 @@ public class BookController {
         return googleBooks.asSearch(query);
     }
 
+    @GetMapping("pagination")
+    public List<BookResponse> paginatedBooks(@RequestParam String startIndex) {
+        return googleBooks.paginated(startIndex);
+    }
+
     @PatchMapping("update")
      public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
         return bookUpdate.Update(request);
