@@ -3,9 +3,11 @@ package dat3.book_app.service.openAI;
 import dat3.book_app.dto.openai.requests.OpenAiDavinciPrompt;
 import dat3.book_app.dto.openai.response.OpenAiResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import static reactor.core.publisher.Mono.*;
 
+@Service
 public class OpenAIHttpRequest implements IOpenAIRequest {
     private final String Uri = "https://api.openai.com/v1/completions";
 
