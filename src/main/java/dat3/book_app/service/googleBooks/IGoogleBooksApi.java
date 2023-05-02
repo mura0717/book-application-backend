@@ -10,5 +10,5 @@ public interface IGoogleBooksApi {
 
     List<BookResponse> byAuthor(String author);
 
-    List<BookResponse> byKeyword(String keyword);
+    List<BookResponse> asSearch(String query);
 }

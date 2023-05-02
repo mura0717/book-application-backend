@@ -31,9 +31,9 @@ public class BookController {
         return googleBooks.byReference(reference);
     }
 
-    @GetMapping("keyword")
-    public List<BookResponse> filteredBooks(String keyword){
-        return googleBooks.byKeyword(keyword);
+    @GetMapping("search")
+    public List<BookResponse> searchedBooks(@RequestParam String query) {
+        return googleBooks.asSearch(query);
     }
 
     @PatchMapping("update")
