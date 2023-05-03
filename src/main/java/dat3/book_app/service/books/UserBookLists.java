@@ -2,13 +2,10 @@ package dat3.book_app.service.books;
 
 import dat3.book_app.dto.books.BookListResponse;
 import dat3.book_app.repository.BooklistRepository;
-import dat3.security.entity.UserWithRoles;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +30,8 @@ public class UserBookLists implements BookLists {
 
     private String getUsername(){
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        if (!(authentication instanceof AnonymousAuthenticationToken))
             return authentication.getName();
-        }
-        return "";
+        return null;
     }
 }
