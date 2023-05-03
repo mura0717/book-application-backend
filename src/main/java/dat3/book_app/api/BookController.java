@@ -47,7 +47,7 @@ public class BookController {
         return googleBooks.slice();
     }
 
-    @PatchMapping("update")
+    @PatchMapping("updateList")
      public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
         return bookUpdate.Update(request);
     }
