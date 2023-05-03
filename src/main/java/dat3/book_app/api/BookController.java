@@ -9,6 +9,8 @@ import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -51,7 +53,9 @@ public class BookController {
     }
 
     @GetMapping("bookLists")
-    public List<BookListResponse> bookLists(){
-        return bookLists.bookLists();
+    public List<BookListResponse> bookLists(Principal principal){
+        if(principal == null)
+            return new ArrayList<>();
+        return bookLists.bookLists(principal.getName());
     }
 }
