@@ -37,12 +37,12 @@ public class BookController {
 
     @GetMapping("search")
     public List<BookResponse> searchedBooks(@RequestParam String query) {
-        return googleBooks.asSearch(query);
+        return googleBooks.bySearch(query);
     }
 
-    @GetMapping("pagination")
-    public List<BookResponse> paginatedBooks(@RequestParam String startIndex) {
-        return googleBooks.paginated(startIndex);
+    @GetMapping("slice")
+    public List<BookResponse> slicedBooks() {
+        return googleBooks.slice();
     }
 
     @PatchMapping("update")
