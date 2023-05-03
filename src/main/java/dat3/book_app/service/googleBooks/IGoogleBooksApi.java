@@ -1,7 +1,6 @@
 package dat3.book_app.service.googleBooks;
 
 import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.dto.googleBooks.GoogleBooksAPIResponse;
 
 import java.util.List;
 
