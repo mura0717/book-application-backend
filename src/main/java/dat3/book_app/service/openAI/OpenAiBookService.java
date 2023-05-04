@@ -50,6 +50,5 @@ public class OpenAiBookService {
         if(recommendations == null)
             return new ArrayList<>();
         return recommendations.getRecommendations();
-
     }
 }
