@@ -21,14 +21,14 @@ public class BookApiPrompts {
                 Each element in the list should comprise author and title and I want the result formatted 
                 as json in compliance with the following example:
                 {
-                    recommendations : [
+                    "recommendations" : [
                         {
                             "authors": ["Noam Chomsky","Bingo Leif"],
                             "title": "Fateful Triangle"
                         },
                         {
                             "authors": ["Rune Lykkeberg"],
-                            "Title": "Kampen om Sandhederne"
+                            "title": "Kampen om Sandhederne"
                         }
                     ]
                 }
@@ -43,18 +43,18 @@ public class BookApiPrompts {
                 Each element in the list should comprise author and title and I want the result formatted 
                 as json in compliance with the following example:
                 {
-                    recommendations : [
+                    "recommendations" : [
                         {
                             "authors": ["Noam Chomsky","Bingo Leif"],
                             "title": "Fateful Triangle"
                         },
                         {
                             "authors": ["Rune Lykkeberg"],
-                            "Title": "Kampen om Sandhederne"
+                            "title": "Kampen om Sandhederne"
                         }
                     ]
                 }
-                """,title,maxResults,author);
-        return new OpenAiDavinciPrompt(MaxTokens,messages);
+                """,maxResults,title,author);
+        return new OpenAiDavinciPrompt(3000,messages);
     }
 }
