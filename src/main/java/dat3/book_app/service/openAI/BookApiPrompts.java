@@ -28,7 +28,7 @@ public class BookApiPrompts {
                         },
                         {
                             "authors": ["Rune Lykkeberg"],
-                            "Title": "Kampen om Sandhederne"
+                            "title": "Kampen om Sandhederne"
                         }
                     ]
                 }
@@ -50,7 +50,7 @@ public class BookApiPrompts {
                         },
                         {
                             "authors": ["Rune Lykkeberg"],
-                            "Title": "Kampen om Sandhederne"
+                            "title": "Kampen om Sandhederne"
                         }
                     ]
                 }

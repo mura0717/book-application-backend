@@ -7,7 +7,7 @@ import java.util.List;
 public interface AIBookService {
     String bookSummary(String author, String title, int length);
 
-    List<BookRecommendation> recommendedBooks(String description, int maxResults);
+    List<BookRecommendation> recommendations(String description, int maxResults);
 
-    List<BookRecommendation> recommendedBooks(String author, String title, int maxResults);
+    List<BookRecommendation> recommendations(String author, String title, int maxResults);
 }

@@ -45,7 +45,8 @@ public class GoogleBooksApi implements IGoogleBooksApi {
                 .filter(Objects::nonNull)
                 .map(Mono::block)
                 .filter(Objects::nonNull)
-                .map(r -> r.getItems().get(0))
+                .map(r -> !r.getItems().isEmpty() ? r.getItems().get(0) : null )
+                .filter(Objects::nonNull)
                 .toList();
     }
 

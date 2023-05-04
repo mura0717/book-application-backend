@@ -61,7 +61,7 @@ public class BookController {
 
     @GetMapping("recommendations")
     public BookRecommendationsResponse recommended(String author, String title){
-        var aiResponse = aiBookService.recommendedBooks(author,title,10);
+        var aiResponse = aiBookService.recommendations(author,title,5);
         var books = googleBooks.fromAiRecommendations(aiResponse);
         return new BookRecommendationsResponse(books);
     }

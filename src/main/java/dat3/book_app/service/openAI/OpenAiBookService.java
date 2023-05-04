@@ -25,7 +25,7 @@ public class OpenAiBookService implements AIBookService {
     }
 
     @Override
-    public List<BookRecommendation> recommendedBooks(String description, int maxResults){
+    public List<BookRecommendation> recommendations(String description, int maxResults){
         if(description == null)
             return new ArrayList<>();
         var prompt = _bookPromptMessages.similarBooks(description, maxResults);
@@ -35,7 +35,7 @@ public class OpenAiBookService implements AIBookService {
     }
 
     @Override
-    public List<BookRecommendation> recommendedBooks(String author, String title, int maxResults){
+    public List<BookRecommendation> recommendations(String author, String title, int maxResults){
         var prompt = _bookPromptMessages.similarBooks(author,title, maxResults);
         var content = _httpRequest.request(prompt);
         var result = getContent(content);
