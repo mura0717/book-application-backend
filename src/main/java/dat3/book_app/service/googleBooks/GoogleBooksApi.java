@@ -2,8 +2,7 @@ package dat3.book_app.service.googleBooks;
 
 import dat3.book_app.dto.googleBooks.BookResponse;
 import dat3.book_app.dto.googleBooks.GoogleBooksAPIResponse;
-import dat3.book_app.factory.GoogleBooksURIFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import dat3.book_app.factory.GoogleBooksParamsFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.util.ArrayList;
@@ -13,8 +12,11 @@ import java.util.List;
 public class GoogleBooksApi implements IGoogleBooksApi {
     private final String Uri = "https://www.googleapis.com/books/v1/volumes";
 
-    @Autowired
-    private GoogleBooksURIFactory googleBooksURIFactory;
+    private GoogleBooksParamsFactory googleBooksParamsFactory;
+
+    public GoogleBooksApi(GoogleBooksParamsFactory googleBooksParamsFactory) {
+        this.googleBooksParamsFactory = googleBooksParamsFactory;
+    }
 
     @Override
     public BookResponse byReference(String bookReference){
@@ -39,8 +41,9 @@ public class GoogleBooksApi implements IGoogleBooksApi {
 
     @Override
     public List<BookResponse> slice() {
-        String uri = googleBooksURIFactory.buildURI(Uri);
-        var response = getRequest(uri,GoogleBooksAPIResponse.class);
+        String params = googleBooksParamsFactory.buildParams();
+        String fullURI = Uri + params;
+        var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }
 

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class GoogleBooksURIFactory {
+public class GoogleBooksParamsFactory {
 
     private final List<String> BASE_PARAMS = Arrays.asList(
-            "%s?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
-            "%s?q=%s&maxResults=15&printType=books&filter=paid-ebooks&langRestrict=da"
+            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
+            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks&langRestrict=da"
     );
 
     private List<String> KEYWORDS = Arrays.asList(
@@ -49,13 +49,12 @@ public class GoogleBooksURIFactory {
     );
 
 
-    public String buildURI(String baseURI) {
+    public String buildParams() {
         Random random = new Random();
         String baseParams = BASE_PARAMS.get(random.nextInt(BASE_PARAMS.size()));
         String q = KEYWORDS.get(random.nextInt(KEYWORDS.size()));
         String uri = String.format(
                 baseParams,
-                baseURI,
                 q
         );
         return uri;
