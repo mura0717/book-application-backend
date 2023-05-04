@@ -3,12 +3,10 @@ package dat3.book_app.api;
 import dat3.book_app.dto.books.BookListResponse;
 import dat3.book_app.dto.books.BookListUpdateRequest;
 import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.service.books.BookListUpdate;
-import dat3.book_app.service.books.BookLists;
+import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +15,10 @@ import java.util.List;
 @RequestMapping("/api/books")
 @CrossOrigin
 public class BookController {
-    private final BookListUpdate bookUpdate;
     private final BookLists bookLists;
     private final IGoogleBooksApi googleBooks;
 
-    public BookController(BookListUpdate bookUpdate, BookLists bookLists, IGoogleBooksApi googleBooks) {
-        this.bookUpdate = bookUpdate;
+    public BookController(BookLists bookLists, IGoogleBooksApi googleBooks) {
         this.bookLists = bookLists;
         this.googleBooks = googleBooks;
     }
@@ -49,7 +45,7 @@ public class BookController {
 
     @PatchMapping("updateList")
      public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
-        return bookUpdate.Update(request);
+        return bookLists.Update(request);
     }
 
     @GetMapping("bookLists")

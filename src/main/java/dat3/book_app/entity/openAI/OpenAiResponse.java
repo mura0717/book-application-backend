@@ -1,5 +1,6 @@
-package dat3.book_app.dto.openai.response;
+package dat3.book_app.entity.openAI;
 
+import dat3.book_app.dto.openai.response.OpenAiChoices;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
