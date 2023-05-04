@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OpenAiBookService {
+public class OpenAiBookService implements AIBookService {
     private final IOpenAIRequest _httpRequest;
     private final BookApiPrompts _bookPromptMessages;
     public OpenAiBookService(IOpenAIRequest httpRequest, BookApiPrompts bookPromptMessages) {
@@ -17,12 +17,14 @@ public class OpenAiBookService {
         _bookPromptMessages = bookPromptMessages;
     }
 
+    @Override
     public String bookSummary(String author, String title, int length){
         var prompt = _bookPromptMessages.summary(author,title,length);
         var content = _httpRequest.request(prompt);
         return getContent(content);
     }
 
+    @Override
     public List<BookRecommendation> recommendedBooks(String description, int maxResults){
         if(description == null)
             return new ArrayList<>();
@@ -32,6 +34,7 @@ public class OpenAiBookService {
         return fromJson(result);
     }
 
+    @Override
     public List<BookRecommendation> recommendedBooks(String author, String title, int maxResults){
         var prompt = _bookPromptMessages.similarBooks(author,title, maxResults);
         var content = _httpRequest.request(prompt);

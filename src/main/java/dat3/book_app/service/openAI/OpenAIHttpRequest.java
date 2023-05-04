@@ -11,7 +11,7 @@ import static reactor.core.publisher.Mono.*;
 public class OpenAIHttpRequest implements IOpenAIRequest {
     private final String Uri = "https://api.openai.com/v1/completions";
 
-    @Value("OpenAI-Api-Key")
+    @Value("${OpenAI-Api-Key}")
     private String apiKey;
 
     @Override
@@ -20,6 +20,7 @@ public class OpenAIHttpRequest implements IOpenAIRequest {
                 .post()
                 .uri(Uri)
                 .header("Authorization",authHeaderValue(apiKey))
+                .header("Content-Type","application/json")
                 .body(just(request), OpenAiDavinciPrompt.class)
                 .retrieve()
                 .bodyToMono(OpenAiResponse.class)
