@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class GoogleBooksURLFactory {
+public class GoogleBooksParamsFactory {
 
     private final List<String> BASE_PARAMS = Arrays.asList(
             "?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
@@ -49,7 +49,7 @@ public class GoogleBooksURLFactory {
     );
 
 
-    public String buildURI() {
+    public String buildParams() {
         Random random = new Random();
         String baseParams = BASE_PARAMS.get(random.nextInt(BASE_PARAMS.size()));
         String q = KEYWORDS.get(random.nextInt(KEYWORDS.size()));

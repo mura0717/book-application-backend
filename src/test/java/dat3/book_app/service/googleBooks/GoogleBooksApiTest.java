@@ -1,7 +1,7 @@
 package dat3.book_app.service.googleBooks;
 
 import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.factory.GoogleBooksURLFactory;
+import dat3.book_app.factory.GoogleBooksParamsFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class GoogleBooksApiTest {
 
-    GoogleBooksURLFactory googleBooksURLFactory = new GoogleBooksURLFactory();
-    GoogleBooksApi googleBooksApi = new GoogleBooksApi(googleBooksURLFactory);
+    GoogleBooksParamsFactory googleBooksParamsFactory = new GoogleBooksParamsFactory();
+    GoogleBooksApi googleBooksApi = new GoogleBooksApi(googleBooksParamsFactory);
 
     @Test
     void bySearch() {
