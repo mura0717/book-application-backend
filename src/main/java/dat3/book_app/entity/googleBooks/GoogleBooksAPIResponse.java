@@ -1,4 +1,4 @@
-package dat3.book_app.dto.googleBooks;
+package dat3.book_app.entity.googleBooks;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +12,5 @@ import java.util.ArrayList;
 public class GoogleBooksAPIResponse {
     private String kind;
     private int totalItems;
-    private ArrayList<BookResponse> items = new ArrayList<>();
+    private ArrayList<GoogleBook> items = new ArrayList<>();
 }
