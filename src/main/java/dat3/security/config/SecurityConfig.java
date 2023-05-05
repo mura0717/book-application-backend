@@ -66,11 +66,10 @@ public class SecurityConfig {
     http.authorizeHttpRequests((authorize) -> authorize
             .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST,"/api/user-with-role").permitAll() //Clients can create a user for themself
-
-             //This is for demo purposes only, and should be removed for a real system
-            .requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll()
-
-
+            .requestMatchers(HttpMethod.GET,"/api/books/search").permitAll()
+            .requestMatchers(HttpMethod.GET,"/api/books/slice").permitAll()
+            .requestMatchers(HttpMethod.GET,"/api/books/reference").permitAll()
+            .requestMatchers(HttpMethod.GET,"/api/books/recommendations").permitAll()
             .requestMatchers(HttpMethod.GET,"/*").permitAll() //Allow index.html
 
             .requestMatchers("/error").permitAll()
@@ -81,7 +80,7 @@ public class SecurityConfig {
             //This is for demo purposes only, and should be removed for a real system
             //.antMatchers(HttpMethod.GET, "/api/demouser/user-only").hasAuthority("USER")
             // .antMatchers(HttpMethod.GET, "/api/demouser/admin-only").hasAuthority("ADMIN")
-             .anyRequest().permitAll());
+             .anyRequest().authenticated());
             //.anyRequest().authenticated());
 
     return http.build();

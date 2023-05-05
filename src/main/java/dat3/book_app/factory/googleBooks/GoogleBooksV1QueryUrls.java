@@ -1,4 +1,4 @@
-package dat3.book_app.factory;
+package dat3.book_app.factory.googleBooks;
 
 import org.springframework.stereotype.Service;
 import java.util.Arrays;

@@ -1,13 +1,12 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.dto.googleBooks.GoogleBooksAPIResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
-import dat3.book_app.factory.GoogleBooksQueryUrls;
+import dat3.book_app.entity.googleBooks.GoogleBook;
+import dat3.book_app.entity.googleBooks.GoogleBooksAPIResponse;
+import dat3.book_app.factory.googleBooks.GoogleBooksQueryUrls;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,21 +23,21 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public BookResponse byReference(String bookReference){
+    public GoogleBook byReference(String bookReference){
         var query = String.format("%s/%s",Uri,bookReference);
-        var response = getRequest(query,BookResponse.class);
-        return response != null ? response : new BookResponse();
+        var response = getRequest(query, GoogleBook.class);
+        return response != null ? response : new GoogleBook();
     }
 
     @Override
-    public List<BookResponse> byAuthor(String author){
+    public List<GoogleBook> byAuthor(String author){
         var uri = _queryUrls.queryBookByAuthor(author);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }
 
     @Override
-    public List<BookResponse> fromAiRecommendations(List<BookRecommendation> recommendations) {
+    public List<GoogleBook> fromAiRecommendations(List<BookRecommendation> recommendations) {
         return  recommendations.stream()
                 .map(r -> _queryUrls.queryBook(r.getAuthors().get(0), r.getTitle()))
                 .map(u -> getRequestAsync(u, GoogleBooksAPIResponse.class))
@@ -51,14 +50,14 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<BookResponse> bySearch(String query) {
+    public List<GoogleBook> bySearch(String query) {
         var uri = String.format("%s?q='%s'&maxResults=5&filter=paid-ebooks&langRestrict",Uri,query);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }
 
     @Override
-    public List<BookResponse> slice() {
+    public List<GoogleBook> slice() {
         String fullURI = _queryUrls.queryRandomBooks();
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();

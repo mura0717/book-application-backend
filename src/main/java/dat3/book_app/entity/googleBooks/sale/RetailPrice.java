@@ -1,4 +1,4 @@
-package dat3.book_app.dto.googleBooks.googleSales;
+package dat3.book_app.entity.googleBooks.sale;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

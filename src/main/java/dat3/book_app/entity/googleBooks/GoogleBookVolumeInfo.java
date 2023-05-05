@@ -1,4 +1,4 @@
-package dat3.book_app.dto.googleBooks;
+package dat3.book_app.entity.googleBooks;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +17,6 @@ public class GoogleBookVolumeInfo {
     private ArrayList<String> categories = new ArrayList<>();
     private String maturityRating;
     private String language;
-    private ImageLinks imageLinks = new ImageLinks();
+    private GoogleBookImageInfo imageLinks = new GoogleBookImageInfo();
 }
 

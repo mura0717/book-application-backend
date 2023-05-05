@@ -1,4 +1,4 @@
-package dat3.book_app.factory;
+package dat3.book_app.factory.googleBooks;
 
 public interface GoogleBooksQueryUrls {
     String queryRandomBooks();

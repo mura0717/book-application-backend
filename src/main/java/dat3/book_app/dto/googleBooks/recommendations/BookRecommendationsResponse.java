@@ -1,7 +1,7 @@
 package dat3.book_app.dto.googleBooks.recommendations;
 
-import dat3.book_app.dto.googleBooks.BookResponse;
-import dat3.book_app.dto.googleBooks.ImageLinks;
+import dat3.book_app.entity.googleBooks.GoogleBook;
+import dat3.book_app.entity.googleBooks.GoogleBookImageInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 
 public class BookRecommendationsResponse{
-    public BookRecommendationsResponse(List<BookResponse> books){
+    public BookRecommendationsResponse(List<GoogleBook> books){
         recommendations = books.stream()
                 .map(BookRecommendationResponse::new)
                 .toList();
@@ -23,7 +23,8 @@ public class BookRecommendationsResponse{
 
 @Getter
 class BookRecommendationResponse {
-    public BookRecommendationResponse(BookResponse book){
+    public BookRecommendationResponse(GoogleBook book){
+        reference = book.getId();
         title = book.getVolumeInfo().getTitle();
         authors = book.getVolumeInfo().getAuthors();
         imageLink = book.getVolumeInfo().getImageLinks();
@@ -31,7 +32,8 @@ class BookRecommendationResponse {
         currency = book.getSaleInfo().getRetailPrice().getCurrencyCode();
     }
 
-    private final ImageLinks imageLink;
+    private final String reference;
+    private final GoogleBookImageInfo imageLink;
     private final String title;
     private final List<String> authors;
     private final double priceAmount;
