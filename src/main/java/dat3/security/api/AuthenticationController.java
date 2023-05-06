@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +41,13 @@ public class AuthenticationController {
   public AuthenticationController(AuthenticationManager authenticationManager, JwtEncoder encoder) {
     this.authenticationManager = authenticationManager;
     this.encoder = encoder;
+  }
+
+  @GetMapping("checkhealth")
+  public ResponseEntity<Boolean> checkHealth(Principal p) {
+    if (p.getName() == null)
+      return ResponseEntity.ok(false);
+    return ResponseEntity.ok(true);
   }
 
   @PostMapping("login")
