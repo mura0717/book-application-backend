@@ -45,9 +45,7 @@ public class AuthenticationController {
 
   @GetMapping("checkhealth")
   public ResponseEntity<Boolean> checkHealth(Principal p) {
-    if (p.getName() == null)
-      return ResponseEntity.ok(false);
-    return ResponseEntity.ok(true);
+    return ResponseEntity.ok(p.getName() == null);
   }
 
   @PostMapping("login")
