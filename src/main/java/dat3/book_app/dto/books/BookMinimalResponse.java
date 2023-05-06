@@ -12,6 +12,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class BookMinimalResponse {
     public BookMinimalResponse(GoogleBook book) {
+        id = book.getId();
         title = book.getVolumeInfo().getTitle();
         authors = book.getVolumeInfo().getAuthors();
         categories = book.getVolumeInfo().getCategories();
@@ -25,4 +26,5 @@ public class BookMinimalResponse {
     private ArrayList<String> categories;
     private double priceAmount;
     private String currency;
+    private String id;
 }
