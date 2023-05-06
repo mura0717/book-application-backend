@@ -17,6 +17,10 @@ public class Entities {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    public String getId() {
+        return id;
+    }
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

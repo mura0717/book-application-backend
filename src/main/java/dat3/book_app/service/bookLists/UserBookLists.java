@@ -1,5 +1,6 @@
-package dat3.book_app.service.books;
+package dat3.book_app.service.bookLists;
 
+import dat3.book_app.dto.books.BookListResponse;
 import dat3.book_app.dto.books.BookListUpdateRequest;
 import dat3.book_app.repository.BooklistRepository;
 import org.json.JSONObject;
@@ -7,13 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-@Service
-public class BookListUpdate implements IBookListUpdate<BookListUpdateRequest> {
+import java.util.List;
 
+@Service
+public class UserBookLists implements BookLists {
     private final BooklistRepository _repository;
 
-    public BookListUpdate(BooklistRepository repository) {
+    public UserBookLists(BooklistRepository repository) {
         _repository = repository;
+    }
+
+    @Override
+    public List<BookListResponse> bookLists(String username) {
+        var userLists = _repository.findByUser_UsernameLike(username);
+        return userLists.stream().map(BookListResponse::new).toList();
     }
 
     @Override
@@ -25,7 +33,7 @@ public class BookListUpdate implements IBookListUpdate<BookListUpdateRequest> {
         var bookReferences = bookList.getBookReferences();
         var isPresent = bookReferences.contains(request.getBookId());
         if(isPresent)
-           return errorResponse("Book already present");
+            return errorResponse("Book already present");
         bookReferences.add(request.getBookId());
         _repository.save(bookList);
         return new ResponseEntity<>(HttpStatus.OK);

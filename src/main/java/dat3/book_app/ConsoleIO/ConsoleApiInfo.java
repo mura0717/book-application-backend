@@ -19,7 +19,11 @@ public class ConsoleApiInfo {
     {
         System.out.println("Available endpoints:");
         System.out.println();
-        printEndPoint("","SwaggerUI/OpenAPI interface");
+        printEndPoint("","SwaggerUI/OpenAPI interface (Not available with security enabled)");
+        System.out.println();
+        System.out.println("TESTING:");
+        System.out.println();
+        printEndPoint("api/books/slice","Query random books");
     }
 
     private static void printEndPoint(String path, String description)

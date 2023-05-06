@@ -16,4 +16,5 @@ public class OpenAiDavinciPrompt {
     private final String model = "text-davinci-003";
     private int max_tokens = 100;
     private String prompt;
+    private double temperature = 0.3;
 }

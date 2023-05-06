@@ -1,17 +1,17 @@
-package dat3.book_app.factory;
+package dat3.book_app.factory.googleBooks;
 
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Service
-public class GoogleBooksURIFactory {
+public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
+    private final String Uri = "https://www.googleapis.com/books/v1/volumes";
 
     private final List<String> BASE_PARAMS = Arrays.asList(
-            "%s?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
-            "%s?q=%s&maxResults=15&printType=books&filter=paid-ebooks&langRestrict=da"
+            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
+            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks&langRestrict=da"
     );
 
     private List<String> KEYWORDS = Arrays.asList(
@@ -48,17 +48,29 @@ public class GoogleBooksURIFactory {
             "summer"
     );
 
-
-    public String buildURI(String baseURI) {
+    @Override
+    public String queryRandomBooks() {
         Random random = new Random();
         String baseParams = BASE_PARAMS.get(random.nextInt(BASE_PARAMS.size()));
         String q = KEYWORDS.get(random.nextInt(KEYWORDS.size()));
-        String uri = String.format(
+        return Uri + String.format(
                 baseParams,
-                baseURI,
                 q
         );
-        return uri;
     }
 
+    @Override
+    public String queryBook(String author, String title) {
+        return Uri + String.format("?q=author:%s&title:%s",author,title);
+    }
+
+    @Override
+    public String queryBookByAuthor(String author) {
+        return Uri + String.format("?q=author:%s",author);
+    }
+
+    @Override
+    public String queryBookByReference(String reference) {
+        return String.format("%s/%s",Uri,reference);
+    }
 }
