@@ -30,6 +30,15 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
+    public List<GoogleBook> fromReferences(List<String> references) {
+        return references.stream().map(r -> {
+            var query = String.format("%s/%s",Uri,r);
+            return  getRequestAsync(query, GoogleBook.class);
+        }).map(m -> m.block())
+                .toList();
+    }
+
+    @Override
     public List<GoogleBook> byAuthor(String author){
         var uri = _queryUrls.queryBookByAuthor(author);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);

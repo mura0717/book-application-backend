@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IGoogleBooksApi {
     GoogleBook byReference(String bookReference);
+    List<GoogleBook> fromReferences(List<String> references);
 
     List<GoogleBook> byAuthor(String author);
     List<GoogleBook> fromAiRecommendations(List<BookRecommendation> recommendations);

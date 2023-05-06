@@ -37,6 +37,11 @@ public class BookController {
         return googleBooks.byReference(reference);
     }
 
+    @GetMapping("references")
+    public List<GoogleBook> books(List<String> references){
+        return googleBooks.fromReferences(references);
+    }
+
     @GetMapping("search")
     public List<GoogleBook> searchedBooks(@RequestParam String query) {
         return googleBooks.bySearch(query);
