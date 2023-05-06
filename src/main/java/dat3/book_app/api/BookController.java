@@ -1,12 +1,15 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.books.BookListResponse;
+import dat3.book_app.dto.books.BookListFullResponse;
+import dat3.book_app.dto.books.BookListMinimumResponse;
 import dat3.book_app.dto.books.BookListUpdateRequest;
+import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.entity.googleBooks.GoogleBook;
 import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationsResponse;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -38,7 +41,7 @@ public class BookController {
     }
 
     @GetMapping("references")
-    public List<GoogleBook> books(List<String> references){
+    public List<BookMinimalResponse> books(List<String> references){
         return googleBooks.fromReferences(references);
     }
 
@@ -58,10 +61,16 @@ public class BookController {
     }
 
     @GetMapping("bookLists")
-    public List<BookListResponse> bookLists(Principal principal){
+    public List<BookListMinimumResponse> bookLists(Principal principal){
         if(principal == null)
             return new ArrayList<>();
         return bookLists.bookLists(principal.getName());
+    }
+
+    public BookListFullResponse bookList(String id){
+        var bookList = bookLists.bookList(id);
+        var books = googleBooks.fromReferences(bookList.getBookReferences());
+        return new BookListFullResponse(bookList,books);
     }
 
     @GetMapping("recommendations")

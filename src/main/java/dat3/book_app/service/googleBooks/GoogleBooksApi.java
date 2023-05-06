@@ -1,5 +1,6 @@
 package dat3.book_app.service.googleBooks;
 
+import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.googleBooks.GoogleBook;
 import dat3.book_app.entity.googleBooks.GoogleBooksAPIResponse;
@@ -30,12 +31,14 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<GoogleBook> fromReferences(List<String> references) {
+    public List<BookMinimalResponse> fromReferences(List<String> references) {
         return references.stream().map(r -> {
-            var query = String.format("%s/%s",Uri,r);
-            return  getRequestAsync(query, GoogleBook.class);
-        }).map(m -> m.block())
-                .toList();
+                var query = String.format("%s/%s",Uri,r);
+                return  getRequestAsync(query, GoogleBook.class);
+            })
+            .map(m -> m.block())
+            .filter(Objects::nonNull)
+            .map(BookMinimalResponse::new).toList();
     }
 
     @Override
