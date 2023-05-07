@@ -1,4 +1,4 @@
-package dat3.book_app.dto.books;
+package dat3.book_app.dto.googleBooks;
 
 import dat3.book_app.entity.googleBooks.GoogleBook;
 import lombok.Getter;

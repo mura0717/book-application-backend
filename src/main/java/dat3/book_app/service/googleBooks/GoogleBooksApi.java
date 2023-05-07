@@ -1,6 +1,8 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.BookDetailsResponse;
+import dat3.book_app.dto.googleBooks.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.googleBooks.GoogleBook;
 import dat3.book_app.entity.googleBooks.GoogleBooksAPIResponse;
@@ -24,10 +26,10 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public GoogleBook byReference(String bookReference){
+    public BookDetailsResponse fromReference(String bookReference){
         var query = String.format("%s/%s",Uri,bookReference);
         var response = getRequest(query, GoogleBook.class);
-        return response != null ? response : new GoogleBook();
+        return response != null ? new BookDetailsResponse(response) : new BookDetailsResponse();
     }
 
     @Override
@@ -49,7 +51,7 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<GoogleBook> fromAiRecommendations(List<BookRecommendation> recommendations) {
+    public List<BookRecommendationResponse> fromAiRecommendations(List<BookRecommendation> recommendations) {
         return  recommendations.stream()
                 .map(r -> _queryUrls.queryBook(r.getAuthors().get(0), r.getTitle()))
                 .map(u -> getRequestAsync(u, GoogleBooksAPIResponse.class))
@@ -58,6 +60,7 @@ public class GoogleBooksApi implements IGoogleBooksApi {
                 .filter(Objects::nonNull)
                 .map(r -> !r.getItems().isEmpty() ? r.getItems().get(0) : null )
                 .filter(Objects::nonNull)
+                .map(BookRecommendationResponse::new)
                 .toList();
     }
 
