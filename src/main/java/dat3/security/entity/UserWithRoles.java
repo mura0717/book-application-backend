@@ -53,8 +53,8 @@ public class UserWithRoles implements UserDetails {
   @CollectionTable(name = "security_role")
   List<Role> roles = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user")
-  private List<Booklist> booklists = new ArrayList<>();
+//  @OneToMany(mappedBy = "user")
+//  private List<Booklist> booklists = new ArrayList<>();
 
   public UserWithRoles() {
   }
