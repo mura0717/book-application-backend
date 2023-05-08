@@ -1,4 +1,4 @@
-package dat3.book_app.entity.googleBooks;
+package dat3.book_app.entity.bookLists;
 
 import dat3.book_app.entity.Entities;
 import dat3.book_app.entity.Member;

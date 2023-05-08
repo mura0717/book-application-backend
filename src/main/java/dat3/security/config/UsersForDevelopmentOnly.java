@@ -2,8 +2,7 @@ package dat3.security.config;
 
 import dat3.book_app.entity.Member;
 import dat3.security.entity.Role;
-import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +19,7 @@ public class UsersForDevelopmentOnly {
    If you see these lines in the log-outputs on Azure, forget whatever had your attention and fix this problem
 
    *****************************************************************************************/
-  public static void setupUserWithRoleUsers(UserWithRolesRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
+  public static void setupUserWithRoleUsers(MemberRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
     System.out.println("******************************************************************************");
     System.out.println("********** IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ************");
     System.out.println();

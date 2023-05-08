@@ -8,16 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 
 @Service
 public class UserWithRolesService {
 
-  private  final UserWithRolesRepository userWithRolesRepository;
+  private  final MemberRepository userWithRolesRepository;
   private PasswordEncoder passwordEncoder;
 
-  public UserWithRolesService(UserWithRolesRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
+  public UserWithRolesService(MemberRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
     this.userWithRolesRepository = userWithRolesRepository;
     this.passwordEncoder = passwordEncoder;
   }

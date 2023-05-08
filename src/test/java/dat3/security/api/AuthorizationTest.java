@@ -2,13 +2,10 @@ package dat3.security.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import dat3.security.TestUtils;
 import dat3.security.dto.LoginRequest;
 import dat3.security.dto.LoginResponse;
-import dat3.security.entity.Role;
-import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -17,15 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -42,7 +36,7 @@ public class AuthorizationTest {
   @Autowired
   MockMvc mockMvc;
   @Autowired
-  UserWithRolesRepository userWithRolesRepository;
+  MemberRepository userWithRolesRepository;
   @Autowired
   PasswordEncoder passwordEncoder;
 

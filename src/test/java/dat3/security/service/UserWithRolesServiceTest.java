@@ -6,9 +6,8 @@ import dat3.security.dto.UserWithRolesRequest;
 import dat3.security.dto.UserWithRolesResponse;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,7 +27,7 @@ class UserWithRolesServiceTest {
   PasswordEncoder passwordEncoder;
 
   @Autowired
-  UserWithRolesRepository userWithRolesRepository;
+  MemberRepository userWithRolesRepository;
 
   private boolean dataInitialized = false;
 

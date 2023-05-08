@@ -1,10 +1,13 @@
 package dat3.security.repository;
 
 import dat3.book_app.entity.Member;
-import dat3.security.entity.UserWithRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
+
+import java.util.Optional;
 
 public interface
-UserWithRolesRepository extends JpaRepository<Member,String> {
+MemberRepository extends JpaRepository<Member,String> {
+    Optional<Member> findByUsernameLike(@NonNull String username);
     Boolean existsByEmail(String email);
 }

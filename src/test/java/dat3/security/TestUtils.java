@@ -2,13 +2,12 @@ package dat3.security;
 
 import dat3.book_app.entity.Member;
 import dat3.security.entity.Role;
-import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class TestUtils {
 
-  public static void setupTestUsers(PasswordEncoder encoder, UserWithRolesRepository userWithRolesRepository){
+  public static void setupTestUsers(PasswordEncoder encoder, MemberRepository userWithRolesRepository){
     userWithRolesRepository.deleteAll();
     String passwordUsedByAll = encoder.encode("secret");
     var user1 = new Member("u1", passwordUsedByAll, "u1@a.dk");

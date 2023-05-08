@@ -1,6 +1,6 @@
 package dat3.book_app.entity;
 
-import dat3.book_app.entity.googleBooks.Booklist;
+import dat3.book_app.entity.bookLists.Booklist;
 import dat3.security.entity.UserWithRoles;
 import jakarta.persistence.*;
 import lombok.Getter;

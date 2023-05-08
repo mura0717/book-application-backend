@@ -1,11 +1,11 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.googleBooks.BookDetailsResponse;
-import dat3.book_app.dto.googleBooks.BookMinimalResponse;
-import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.books.BookDetailsResponse;
+import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
-import dat3.book_app.entity.googleBooks.GoogleBook;
-import dat3.book_app.entity.googleBooks.GoogleBooksAPIResponse;
+import dat3.book_app.entity.books.GoogleBook;
+import dat3.book_app.entity.books.GoogleBooksAPIResponse;
 import dat3.book_app.factory.googleBooks.GoogleBooksQueryUrls;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
