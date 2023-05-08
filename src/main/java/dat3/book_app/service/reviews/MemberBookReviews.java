@@ -35,8 +35,8 @@ public class MemberBookReviews implements BookReviews {
         if(member == null)
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND,"Member not found");
         var reviewEntity = request.toReview();
-        member.getReviews().add(reviewEntity);
-        _memberRepository.save(member);
+        reviewEntity.setMember(member);
+        _reviewRepository.save(reviewEntity);
         return ReviewResponse.fromReview(reviewEntity);
     }
 }

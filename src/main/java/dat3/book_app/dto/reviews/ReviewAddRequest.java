@@ -1,6 +1,5 @@
 package dat3.book_app.dto.reviews;
 
-import dat3.book_app.entity.Member;
 import dat3.book_app.entity.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReviewResponse {
+    private String reviewId;
     private String review;
     private int rating;
     private String username;
@@ -18,6 +19,7 @@ public class ReviewResponse {
         response.review  = reviewEntity.getComment();
         response.rating = reviewEntity.getStars();
         response.username = reviewEntity.getMember().getUsername();
+        response.reviewId = reviewEntity.getId();
         return response;
     }
 }
