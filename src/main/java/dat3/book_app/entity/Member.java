@@ -13,9 +13,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "USER_TYPE")
+@Table(name = "members")
 public class Member extends UserWithRoles {
+
+    public Member(String user, String password, String email) {
+        super(user, password, email);
+    }
 
     @OneToMany(mappedBy = "user")
     private List<Booklist> booklists = new ArrayList<>();

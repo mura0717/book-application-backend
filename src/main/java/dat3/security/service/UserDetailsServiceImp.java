@@ -1,5 +1,6 @@
 package dat3.security.service;
 
+import dat3.book_app.entity.Member;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +25,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    final Optional<UserWithRoles> optionalUser = userWithRolesRepository.findById(username);
+    final Optional<Member> optionalUser = userWithRolesRepository.findById(username);
     return optionalUser.orElseThrow(()->new ResponseStatusException(HttpStatus.UNAUTHORIZED,WRONG_USERNAME_OR_PASSWORD));
   }
 }

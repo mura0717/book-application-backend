@@ -1,5 +1,6 @@
 package dat3.security.service;
 
+import dat3.book_app.entity.Member;
 import dat3.security.dto.UserWithRolesRequest;
 import dat3.security.dto.UserWithRolesResponse;
 import dat3.security.entity.Role;
@@ -22,13 +23,13 @@ public class UserWithRolesService {
   }
 
   public UserWithRolesResponse getUserWithRoles(String id){
-    UserWithRoles user = userWithRolesRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    var user = userWithRolesRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     return new UserWithRolesResponse(user);
   }
 
   //Make sure that this can ONLY be called by an admin
   public UserWithRolesResponse addRole(String username , Role role){
-    UserWithRoles user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    var user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     user.addRole(role);
     return new UserWithRolesResponse(userWithRolesRepository.save(user));
   }
@@ -36,14 +37,14 @@ public class UserWithRolesService {
   //Make sure that this can ONLY be called by an admin
   public UserWithRolesResponse removeRole(String username , Role role){
 
-    UserWithRoles user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    var user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     user.removeRole(role);
     return new UserWithRolesResponse(userWithRolesRepository.save(user));
   }
 
   //Only way to change roles is via the addRole method
   public UserWithRolesResponse editUserWithRoles(String username , UserWithRolesRequest body){
-    UserWithRoles user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+    var user = userWithRolesRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
     user.setEmail(body.getEmail());
     user.setPassword(passwordEncoder.encode(body.getPassword()));
     return new UserWithRolesResponse(userWithRolesRepository.save(user));
@@ -63,7 +64,7 @@ public class UserWithRolesService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"This email is used by another user");
     }
     String pw = passwordEncoder.encode(body.getPassword());
-    UserWithRoles userWithRoles = new UserWithRoles(body.getUsername(), pw, body.getEmail());
+    var userWithRoles = new Member(body.getUsername(), pw, body.getEmail());
     if(role !=null  ) {
       userWithRoles.addRole(role);
     }

@@ -22,6 +22,6 @@ public class Booklist extends Entities {
     @Column(name = "listTitle")
     private String title;
     @ManyToOne
-    private UserWithRoles user;
+    private Member user;
 }
 

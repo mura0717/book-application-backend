@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Review extends Entities {
     private String bookReference;
     private int stars;
-    private UserWithRoles user;
+    private Member user;
     private String comment;
 
 }
