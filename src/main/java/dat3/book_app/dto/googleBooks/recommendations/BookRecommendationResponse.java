@@ -10,19 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-
-public class BookRecommendationsResponse{
-    public BookRecommendationsResponse(List<GoogleBook> books){
-        recommendations = books.stream()
-                .map(BookRecommendationResponse::new)
-                .toList();
-    }
-
-    private List<BookRecommendationResponse> recommendations;
-}
-
-@Getter
-class BookRecommendationResponse {
+public class BookRecommendationResponse {
     public BookRecommendationResponse(GoogleBook book){
         reference = book.getId();
         title = book.getVolumeInfo().getTitle();
@@ -32,10 +20,10 @@ class BookRecommendationResponse {
         currency = book.getSaleInfo().getRetailPrice().getCurrencyCode();
     }
 
-    private final String reference;
-    private final GoogleBookImageInfo imageLink;
-    private final String title;
-    private final List<String> authors;
-    private final double priceAmount;
-    private final String currency;
+    private String reference;
+    private GoogleBookImageInfo imageLink;
+    private String title;
+    private List<String> authors;
+    private double priceAmount;
+    private String currency;
 }

@@ -1,7 +1,7 @@
 package dat3.book_app.dto.books;
 
+import dat3.book_app.dto.googleBooks.BookMinimalResponse;
 import dat3.book_app.entity.Booklist;
-import dat3.book_app.entity.googleBooks.GoogleBook;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

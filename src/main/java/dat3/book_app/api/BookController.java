@@ -3,13 +3,13 @@ package dat3.book_app.api;
 import dat3.book_app.dto.books.BookListFullResponse;
 import dat3.book_app.dto.books.BookListMinimumResponse;
 import dat3.book_app.dto.books.BookListUpdateRequest;
-import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.BookDetailsResponse;
+import dat3.book_app.dto.googleBooks.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.googleBooks.GoogleBook;
-import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationsResponse;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -36,8 +36,8 @@ public class BookController {
     }
 
     @GetMapping("reference")
-    public GoogleBook book(String reference){
-        return googleBooks.byReference(reference);
+    public BookDetailsResponse book(String reference){
+        return googleBooks.fromReference(reference);
     }
 
     @GetMapping("references")
@@ -74,9 +74,8 @@ public class BookController {
     }
 
     @GetMapping("recommendations")
-    public BookRecommendationsResponse recommended(String author, String title){
+    public List<BookRecommendationResponse> recommended(String author, String title){
         var aiResponse = aiBookService.recommendations(author,title,5);
-        var books = googleBooks.fromAiRecommendations(aiResponse);
-        return new BookRecommendationsResponse(books);
+        return googleBooks.fromAiRecommendations(aiResponse);
     }
 }

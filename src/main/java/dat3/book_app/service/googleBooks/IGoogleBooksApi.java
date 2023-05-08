@@ -1,17 +1,19 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.BookDetailsResponse;
+import dat3.book_app.dto.googleBooks.BookMinimalResponse;
+import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.googleBooks.GoogleBook;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 
 import java.util.List;
 
 public interface IGoogleBooksApi {
-    GoogleBook byReference(String bookReference);
+    BookDetailsResponse fromReference(String bookReference);
     List<BookMinimalResponse> fromReferences(List<String> references);
 
     List<GoogleBook> byAuthor(String author);
-    List<GoogleBook> fromAiRecommendations(List<BookRecommendation> recommendations);
+    List<BookRecommendationResponse> fromAiRecommendations(List<BookRecommendation> recommendations);
 
     List<GoogleBook> bySearch(String query);
 
