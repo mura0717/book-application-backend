@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class GoogleBooksApi implements IGoogleBooksApi {
@@ -74,6 +75,14 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     @Override
     public List<GoogleBook> slice() {
         String fullURI = _queryUrls.queryRandomBooks();
+        var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
+        return response != null ? response.getItems() : new ArrayList<>();
+    }
+
+
+    @Override
+    public List<GoogleBook> sliceWithFilter(String filter) {
+        String fullURI = _queryUrls.queryRandomBooksWithFilter(filter);
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }

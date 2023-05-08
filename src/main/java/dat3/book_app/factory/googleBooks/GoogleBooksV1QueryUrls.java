@@ -10,8 +10,13 @@ public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
     private final String Uri = "https://www.googleapis.com/books/v1/volumes";
 
     private final List<String> BASE_PARAMS = Arrays.asList(
-            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks",
-            "?q=%s&maxResults=15&printType=books&filter=paid-ebooks&langRestrict=da"
+            "?q=%s&maxResults=16&printType=books&filter=paid-ebooks",
+            "?q=%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
+    );
+
+    private final List<String> BASE_PARAMS_WITH_FILTER = Arrays.asList(
+            "?q='+subject:%s&maxResults=16&printType=books&filter=paid-ebooks",
+            "?q='+subject:%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
     );
 
     private List<String> KEYWORDS = Arrays.asList(
@@ -56,6 +61,18 @@ public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
         return Uri + String.format(
                 baseParams,
                 q
+        );
+    }
+
+    @Override
+    public String queryRandomBooksWithFilter(String filter) {
+        Random random = new Random();
+        String baseParams = BASE_PARAMS_WITH_FILTER.get(random.nextInt(BASE_PARAMS.size()));
+        String q = KEYWORDS.get(random.nextInt(KEYWORDS.size()));
+        return Uri + String.format(
+                baseParams,
+                q,
+                filter
         );
     }
 
