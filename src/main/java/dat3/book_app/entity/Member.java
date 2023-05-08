@@ -1,5 +1,6 @@
 package dat3.book_app.entity;
 
+import dat3.book_app.entity.googleBooks.Booklist;
 import dat3.security.entity.UserWithRoles;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public class Member extends UserWithRoles {
         super(user, password, email);
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<Booklist> booklists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews = new ArrayList<>();
 }

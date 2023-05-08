@@ -1,14 +1,13 @@
 package dat3.book_app.repository;
 
-import dat3.book_app.entity.Booklist;
+import dat3.book_app.entity.googleBooks.Booklist;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BooklistRepository extends JpaRepository<Booklist, String> {
-    List<Booklist> findByUser_UsernameLike(String username);
+    List<Booklist> findByMember_UsernameLike(@NonNull String username);
 }

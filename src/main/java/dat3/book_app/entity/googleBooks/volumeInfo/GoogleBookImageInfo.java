@@ -1,4 +1,4 @@
-package dat3.book_app.entity.googleBooks;
+package dat3.book_app.entity.googleBooks.volumeInfo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,5 @@
 package dat3.security.entity;
 
-
-import dat3.book_app.entity.Booklist;
 import dat3.security.dto.UserWithRolesRequest;
 import jakarta.persistence.*;
 import lombok.*;

@@ -2,7 +2,7 @@ package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.books.BookListMinimumResponse;
 import dat3.book_app.dto.books.BookListUpdateRequest;
-import dat3.book_app.entity.Booklist;
+import dat3.book_app.entity.googleBooks.Booklist;
 import dat3.book_app.repository.BooklistRepository;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class UserBookLists implements BookLists {
 
     @Override
     public List<BookListMinimumResponse> bookLists(String username) {
-        var userLists = _repository.findByUser_UsernameLike(username);
+        var userLists = _repository.findByMember_UsernameLike(username);
         return userLists.stream().map(BookListMinimumResponse::new).toList();
     }
 
