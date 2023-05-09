@@ -21,7 +21,6 @@ import java.util.Optional;
 @RequestMapping("/api/books")
 @CrossOrigin
 public class BookController {
-    private final BookLists bookLists;
     private final IGoogleBooksApi googleBooks;
     private final AIBookService aiBookService;
 
@@ -53,24 +52,6 @@ public class BookController {
             return googleBooks.sliceWithGenre(genreStr);
         }
         return googleBooks.slice();
-    }
-
-    @PatchMapping("updateList")
-     public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
-        return bookLists.Update(request);
-    }
-
-    @GetMapping("bookLists")
-    public List<BookListMinimumResponse> bookLists(Principal principal){
-        if(principal == null)
-            return new ArrayList<>();
-        return bookLists.bookLists(principal.getName());
-    }
-
-    public BookListFullResponse bookList(String id){
-        var bookList = bookLists.bookList(id);
-        var books = googleBooks.fromReferences(bookList.getBookReferences());
-        return new BookListFullResponse(bookList,books);
     }
 
     @GetMapping("recommendations")
