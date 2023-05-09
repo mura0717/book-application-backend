@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import dat3.security.TestUtils;
 import dat3.security.dto.LoginRequest;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class AuthenticationTest {
   @Autowired
   MockMvc mockMvc;
   @Autowired
-  UserWithRolesRepository userWithRolesRepository;
+  MemberRepository userWithRolesRepository;
   @Autowired
   PasswordEncoder passwordEncoder;
 

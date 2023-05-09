@@ -4,17 +4,17 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 
 import static dat3.security.config.UsersForDevelopmentOnly.setupUserWithRoleUsers;
 
 @Controller
 public class SetupDevUsers implements ApplicationRunner {
 
-    UserWithRolesRepository userWithRolesRepository;
+    MemberRepository userWithRolesRepository;
     PasswordEncoder passwordEncoder;
 
-    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
+    public SetupDevUsers(MemberRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
         this.userWithRolesRepository = userWithRolesRepository;
         this.passwordEncoder = passwordEncoder;
     }

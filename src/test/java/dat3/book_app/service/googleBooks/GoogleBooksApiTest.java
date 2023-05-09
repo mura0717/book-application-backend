@@ -1,6 +1,6 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.entity.googleBooks.GoogleBook;
+import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.factory.googleBooks.GoogleBooksV1QueryUrls;
 import dat3.book_app.factory.googleBooks.GoogleBooksQueryUrls;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,5 @@
 package dat3.security.entity;
 
-
-import dat3.book_app.entity.Booklist;
 import dat3.security.dto.UserWithRolesRequest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,9 +21,7 @@ import java.util.stream.Collectors;
 @Setter
 @ToString
 @AllArgsConstructor
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DISCRIMINATOR_TYPE")
+@MappedSuperclass
 public class UserWithRoles implements UserDetails {
 
   @Id
@@ -52,9 +48,6 @@ public class UserWithRoles implements UserDetails {
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "security_role")
   List<Role> roles = new ArrayList<>();
-
-//  @OneToMany(mappedBy = "user")
-//  private List<Booklist> booklists = new ArrayList<>();
 
   public UserWithRoles() {
   }

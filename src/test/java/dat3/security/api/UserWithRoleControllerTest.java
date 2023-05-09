@@ -6,7 +6,7 @@ import dat3.security.TestUtils;
 import dat3.security.dto.LoginRequest;
 import dat3.security.dto.LoginResponse;
 import dat3.security.dto.UserWithRolesRequest;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import dat3.security.service.UserWithRolesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -40,7 +40,7 @@ class UserWithRoleControllerTest {
   @Autowired
   MockMvc mockMvc;
   @Autowired
-  UserWithRolesRepository userWithRolesRepository;
+  MemberRepository userWithRolesRepository;
   @Autowired
   UserWithRolesService userWithRolesService;
   @Autowired
