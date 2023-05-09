@@ -1,8 +1,8 @@
 package dat3.security.config;
 
+import dat3.book_app.entity.Member;
 import dat3.security.entity.Role;
-import dat3.security.entity.UserWithRoles;
-import dat3.security.repository.UserWithRolesRepository;
+import dat3.security.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
@@ -19,7 +19,7 @@ public class UsersForDevelopmentOnly {
    If you see these lines in the log-outputs on Azure, forget whatever had your attention and fix this problem
 
    *****************************************************************************************/
-  public static void setupUserWithRoleUsers(UserWithRolesRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
+  public static void setupUserWithRoleUsers(MemberRepository userWithRolesRepository, PasswordEncoder passwordEncoder) {
     System.out.println("******************************************************************************");
     System.out.println("********** IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ************");
     System.out.println();
@@ -28,9 +28,9 @@ public class UsersForDevelopmentOnly {
     System.out.println("**** ** ON YOUR REMOTE DATABASE                 ******************************");
     System.out.println();
     System.out.println("******************************************************************************");
-    UserWithRoles user1 = new UserWithRoles("user1", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user1@a.dk");
-    UserWithRoles user2 = new UserWithRoles("user2", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user2@a.dk");
-    UserWithRoles user3 = new UserWithRoles("user3", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user3@a.dk");
+    var user1 = new Member("user1", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user1@a.dk");
+    var user2 = new Member("user2", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user2@a.dk");
+    var user3 = new Member("user3", passwordEncoder.encode(PASSWORD_USED_BY_ALL), "user3@a.dk");
     user1.addRole(Role.USER);
     user1.addRole(Role.ADMIN);
     user2.addRole(Role.USER);

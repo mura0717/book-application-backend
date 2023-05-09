@@ -1,7 +1,7 @@
-package dat3.book_app.dto.googleBooks.recommendations;
+package dat3.book_app.dto.books.recommendations;
 
-import dat3.book_app.entity.googleBooks.GoogleBook;
-import dat3.book_app.entity.googleBooks.GoogleBookImageInfo;
+import dat3.book_app.entity.books.GoogleBook;
+import dat3.book_app.entity.books.volumeInfo.GoogleBookImageInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

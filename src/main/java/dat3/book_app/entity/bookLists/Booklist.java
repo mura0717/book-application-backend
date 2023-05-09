@@ -1,6 +1,7 @@
-package dat3.book_app.entity;
+package dat3.book_app.entity.bookLists;
 
-import dat3.security.entity.UserWithRoles;
+import dat3.book_app.entity.Entities;
+import dat3.book_app.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,8 @@ public class Booklist extends Entities {
 
     @Column(name = "listTitle")
     private String title;
+
     @ManyToOne
-    private UserWithRoles user;
+    private Member member;
 }
 

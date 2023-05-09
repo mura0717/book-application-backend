@@ -1,4 +1,4 @@
-package dat3.book_app.dto.books;
+package dat3.book_app.dto.bookLists;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

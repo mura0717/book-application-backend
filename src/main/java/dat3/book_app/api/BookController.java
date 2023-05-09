@@ -1,12 +1,12 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.books.BookListFullResponse;
-import dat3.book_app.dto.books.BookListMinimumResponse;
-import dat3.book_app.dto.books.BookListUpdateRequest;
-import dat3.book_app.dto.googleBooks.BookDetailsResponse;
-import dat3.book_app.dto.googleBooks.BookMinimalResponse;
-import dat3.book_app.dto.googleBooks.recommendations.BookRecommendationResponse;
-import dat3.book_app.entity.googleBooks.GoogleBook;
+import dat3.book_app.dto.bookLists.BookListFullResponse;
+import dat3.book_app.dto.bookLists.BookListMinimumResponse;
+import dat3.book_app.dto.bookLists.BookListUpdateRequest;
+import dat3.book_app.dto.books.BookDetailsResponse;
+import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
+import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
@@ -39,11 +39,6 @@ public class BookController {
     @GetMapping("reference")
     public BookDetailsResponse book(String reference){
         return googleBooks.fromReference(reference);
-    }
-
-    @GetMapping("references")
-    public List<BookMinimalResponse> books(List<String> references){
-        return googleBooks.fromReferences(references);
     }
 
     @GetMapping("search")
