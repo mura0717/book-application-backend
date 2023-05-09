@@ -1,8 +1,8 @@
 package dat3.book_app.service.bookLists;
 
-import dat3.book_app.dto.books.BookListMinimumResponse;
-import dat3.book_app.dto.books.BookListUpdateRequest;
-import dat3.book_app.entity.Booklist;
+import dat3.book_app.dto.bookLists.BookListMinimumResponse;
+import dat3.book_app.dto.bookLists.BookListUpdateRequest;
+import dat3.book_app.entity.bookLists.Booklist;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

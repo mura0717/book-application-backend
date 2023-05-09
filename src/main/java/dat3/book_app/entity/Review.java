@@ -3,6 +3,7 @@ package dat3.book_app.entity;
 import dat3.security.entity.UserWithRoles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import lombok.Setter;
 public class Review extends Entities {
     private String bookReference;
     private int stars;
-    private UserWithRoles user;
     private String comment;
-
+    @ManyToOne
+    private Member member;
 }

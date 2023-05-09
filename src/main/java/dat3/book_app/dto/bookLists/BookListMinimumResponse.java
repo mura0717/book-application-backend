@@ -1,6 +1,6 @@
-package dat3.book_app.dto.books;
+package dat3.book_app.dto.bookLists;
 
-import dat3.book_app.entity.Booklist;
+import dat3.book_app.entity.bookLists.Booklist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

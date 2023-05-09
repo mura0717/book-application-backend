@@ -1,5 +1,6 @@
 package dat3.book_app.entity;
 
+import dat3.book_app.entity.bookLists.Booklist;
 import dat3.security.entity.UserWithRoles;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,10 +14,16 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "USER_TYPE")
+@Table(name = "members")
 public class Member extends UserWithRoles {
 
-    @OneToMany(mappedBy = "user")
+    public Member(String user, String password, String email) {
+        super(user, password, email);
+    }
+
+    @OneToMany(mappedBy = "member")
     private List<Booklist> booklists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews = new ArrayList<>();
 }

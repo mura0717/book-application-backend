@@ -1,5 +1,6 @@
-package dat3.book_app.entity;
+package dat3.book_app.entity.openAI;
 
+import dat3.book_app.entity.Entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
