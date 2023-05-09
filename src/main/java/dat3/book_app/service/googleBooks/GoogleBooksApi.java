@@ -81,8 +81,8 @@ public class GoogleBooksApi implements IGoogleBooksApi {
 
 
     @Override
-    public List<GoogleBook> sliceWithFilter(String filter) {
-        String fullURI = _queryUrls.queryRandomBooksWithFilter(filter);
+    public List<GoogleBook> sliceWithGenre(String genre) {
+        String fullURI = _queryUrls.queryRandomBooksWithGenre(genre);
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
     }

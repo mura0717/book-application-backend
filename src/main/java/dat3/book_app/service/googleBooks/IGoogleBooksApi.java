@@ -19,5 +19,5 @@ public interface IGoogleBooksApi {
     List<GoogleBook> bySearch(String query);
 
     List<GoogleBook> slice();
-    List<GoogleBook> sliceWithFilter(String filter);
+    List<GoogleBook> sliceWithGenre(String genre);
 }

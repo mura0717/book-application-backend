@@ -15,8 +15,8 @@ public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
     );
 
     private final List<String> BASE_PARAMS_WITH_FILTER = Arrays.asList(
-            "?q='+subject:%s&maxResults=16&printType=books&filter=paid-ebooks",
-            "?q='+subject:%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
+            "?q=%s+subject:%s&maxResults=16&printType=books&filter=paid-ebooks",
+            "?q=%s+subject:%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
     );
 
     private List<String> KEYWORDS = Arrays.asList(
@@ -65,14 +65,14 @@ public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
     }
 
     @Override
-    public String queryRandomBooksWithFilter(String filter) {
+    public String queryRandomBooksWithGenre(String genre) {
         Random random = new Random();
         String baseParams = BASE_PARAMS_WITH_FILTER.get(random.nextInt(BASE_PARAMS.size()));
         String q = KEYWORDS.get(random.nextInt(KEYWORDS.size()));
         return Uri + String.format(
                 baseParams,
                 q,
-                filter
+                genre
         );
     }
 

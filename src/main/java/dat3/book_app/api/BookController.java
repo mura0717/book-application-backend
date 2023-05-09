@@ -47,10 +47,10 @@ public class BookController {
     }
 
     @GetMapping("slice")
-    public List<GoogleBook> slicedBooks(@RequestParam Optional<String> filter) {
-        if (filter.isPresent()) {
-            String filterStr = filter.get();
-            return googleBooks.sliceWithFilter(filterStr);
+    public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
+        if (genre.isPresent()) {
+            String genreStr = genre.get();
+            return googleBooks.sliceWithGenre(genreStr);
         }
         return googleBooks.slice();
     }
