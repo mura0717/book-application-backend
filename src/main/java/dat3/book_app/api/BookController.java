@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -46,7 +47,11 @@ public class BookController {
     }
 
     @GetMapping("slice")
-    public List<GoogleBook> slicedBooks() {
+    public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
+        if (genre.isPresent()) {
+            String genreStr = genre.get();
+            return googleBooks.sliceWithGenre(genreStr);
+        }
         return googleBooks.slice();
     }
 
