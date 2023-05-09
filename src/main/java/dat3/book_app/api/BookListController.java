@@ -3,7 +3,6 @@ package dat3.book_app.api;
 import dat3.book_app.dto.bookLists.*;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class BookListController {
         return bookLists.Update(request);
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<BookListMinimumResponse> bookLists(Principal principal){
         if(principal == null)
             return new ArrayList<>();
@@ -42,7 +41,8 @@ public class BookListController {
         return new BookListFullResponse(bookList,books);
     }
 
+    @PostMapping("create")
     public BookListTitleResponse create(@RequestBody BookListCreateRequest request, Principal principal){
-        throw new NotYetImplementedException();
+        return bookLists.create(request,principal.getName());
     }
 }

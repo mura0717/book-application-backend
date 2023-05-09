@@ -1,19 +1,11 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.bookLists.BookListFullResponse;
-import dat3.book_app.dto.bookLists.BookListMinimumResponse;
-import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.books.GoogleBook;
-import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +16,7 @@ public class BookController {
     private final IGoogleBooksApi googleBooks;
     private final AIBookService aiBookService;
 
-    public BookController(BookLists bookLists, IGoogleBooksApi googleBooks, AIBookService aiBookService) {
-        this.bookLists = bookLists;
+    public BookController(IGoogleBooksApi googleBooks, AIBookService aiBookService) {
         this.googleBooks = googleBooks;
         this.aiBookService = aiBookService;
     }

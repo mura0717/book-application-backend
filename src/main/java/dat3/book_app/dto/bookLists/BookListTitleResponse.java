@@ -10,8 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookListTitleResponse {
     public BookListTitleResponse(Booklist bookList) {
-        this.title = bookList.getTitle();
+        title = bookList.getTitle();
+        id = bookList.getId();
     }
 
-    public String title;
+    private String title;
+    private String id;
 }
