@@ -51,13 +51,10 @@ public class BookController {
 
     @GetMapping("slice")
     public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
-        if (genre.isPresent()) {
-            String genreStr = genre.get();
-            return googleBooks.sliceWithGenre(genreStr);
-        }
+        if (genre.isPresent())
+            return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
     }
-
     @GetMapping("recommendations")
     public List<BookRecommendationResponse> recommended(String author, String title){
         var aiResponse = aiBookService.recommendations(author,title,5);

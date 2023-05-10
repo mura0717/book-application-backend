@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class BookListMinimumResponse {
     public BookListMinimumResponse(Booklist list) {
-        references = list.getBookReferences();
         title = list.getTitle();
         listCount = list.getBookReferences().size();
         id = list.getId();
@@ -22,7 +21,6 @@ public class BookListMinimumResponse {
         updatedAt = list.getLastEdited();
     }
 
-    private List<String> references = new ArrayList<>();
     private String title;
     private int listCount;
     private String id;

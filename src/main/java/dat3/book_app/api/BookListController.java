@@ -23,7 +23,7 @@ public class BookListController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
+    public ResponseEntity<String> addToBooklist(@RequestBody BookListUpdateRequest request){
         return bookLists.Update(request);
     }
 
@@ -41,8 +41,13 @@ public class BookListController {
         return new BookListFullResponse(bookList,books);
     }
 
-    @PostMapping("create")
-    public BookListTitleResponse create(@RequestBody BookListCreateRequest request, Principal principal){
+    @PostMapping("/create")
+    public BookReferencesTitleRespons create(@RequestBody BookListCreateRequest request, Principal principal){
         return bookLists.create(request,principal.getName());
+    }
+
+    @GetMapping("/titles")
+    public List<BookReferencesTitleRespons> getTitles(Principal principal){
+        return bookLists.listTitles(principal.getName());
     }
 }
