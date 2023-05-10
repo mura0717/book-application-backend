@@ -71,6 +71,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET,"/api/books/reference").permitAll()
             .requestMatchers(HttpMethod.GET,"/api/books/recommendations").permitAll()
             .requestMatchers(HttpMethod.GET,"/api/books/reviews").permitAll()
+            .requestMatchers(HttpMethod.GET,"/api/books/available-genres").permitAll()
             .requestMatchers(HttpMethod.GET,"/*").permitAll() //Allow index.html
 
             .requestMatchers("/error").permitAll()
