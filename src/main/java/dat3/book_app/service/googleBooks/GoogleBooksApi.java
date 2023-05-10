@@ -6,14 +6,16 @@ import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.entity.books.GoogleBooksAPIResponse;
-import dat3.book_app.factory.googleBooks.GoogleBooksQueryUrls;
+import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
+import dat3.book_app.factory.googleBooks.filters.GoogleBooksV1Filters;
+import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class GoogleBooksApi implements IGoogleBooksApi {
@@ -21,9 +23,11 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     private final String Uri = "https://www.googleapis.com/books/v1/volumes";
 
     private final GoogleBooksQueryUrls _queryUrls;
+    private final GoogleBooksFilters _googleBooksFilters;
 
-    public GoogleBooksApi(GoogleBooksQueryUrls googleBooksParamsFactory) {
+    public GoogleBooksApi(GoogleBooksQueryUrls googleBooksParamsFactory, GoogleBooksFilters googleBooksFilters) {
         _queryUrls = googleBooksParamsFactory;
+        _googleBooksFilters = googleBooksFilters;
     }
 
     @Override
@@ -85,6 +89,11 @@ public class GoogleBooksApi implements IGoogleBooksApi {
         String fullURI = _queryUrls.queryRandomBooksWithGenre(genre);
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
+    }
+
+    @Override
+    public HashMap<String, String> availableGenres() {
+        return _googleBooksFilters.genres();
     }
 
     private <T> T getRequest(String uri, Class<T> descriptor){
