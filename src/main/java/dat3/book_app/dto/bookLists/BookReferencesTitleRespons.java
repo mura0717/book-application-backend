@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookListTitleResponse {
-    public BookListTitleResponse(Booklist bookList) {
+public class BookReferencesTitleRespons {
+    public BookReferencesTitleRespons(Booklist bookList) {
         title = bookList.getTitle();
         id = bookList.getId();
     }

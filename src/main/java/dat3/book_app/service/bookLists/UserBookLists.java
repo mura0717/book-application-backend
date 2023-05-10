@@ -2,7 +2,7 @@ package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.BookListMinimumResponse;
-import dat3.book_app.dto.bookLists.BookListTitleResponse;
+import dat3.book_app.dto.bookLists.BookReferencesTitleRespons;
 import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.repository.BooklistRepository;
@@ -32,9 +32,9 @@ public class UserBookLists implements BookLists {
     }
 
     @Override
-    public List<BookListTitleResponse> listTitles(String username) {
+    public List<BookReferencesTitleRespons> listTitles(String username) {
         var userLists = _bookLists.findByMember_UsernameLike(username);
-        return userLists.stream().map(BookListTitleResponse::new).toList();
+        return userLists.stream().map(BookReferencesTitleRespons::new).toList();
     }
 
     @Override
@@ -58,13 +58,13 @@ public class UserBookLists implements BookLists {
     }
 
     @Override
-    public BookListTitleResponse create(BookListCreateRequest request, String username) {
+    public BookReferencesTitleRespons create(BookListCreateRequest request, String username) {
         var member = _members.findByUsernameLike(username).orElse(null);
         if(member == null)
             throw new HttpServerErrorException(HttpStatus.NOT_MODIFIED,"Member not found");
         var bookList = request.toBookList(member);
         var saved = _bookLists.saveAndFlush(bookList);
-        return new BookListTitleResponse(saved);
+        return new BookReferencesTitleRespons(saved);
     }
 
     private ResponseEntity<String> errorResponse(String message){
