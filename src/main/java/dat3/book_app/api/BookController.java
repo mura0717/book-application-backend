@@ -4,7 +4,6 @@ import dat3.book_app.dto.bookLists.BookListFullResponse;
 import dat3.book_app.dto.bookLists.BookListMinimumResponse;
 import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.service.bookLists.BookLists;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,11 +48,14 @@ public class BookController {
 
     @GetMapping("slice")
     public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
-        if (genre.isPresent()) {
-            String genreStr = genre.get();
-            return googleBooks.sliceWithGenre(genreStr);
-        }
+        if (genre.isPresent())
+            return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
+    }
+
+    @GetMapping("available-genres")
+    public HashMap<String, String> genres() {
+        return googleBooks.availableGenres();
     }
 
     @PatchMapping("updateList")

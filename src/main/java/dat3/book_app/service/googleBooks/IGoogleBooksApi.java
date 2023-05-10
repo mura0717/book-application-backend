@@ -6,6 +6,7 @@ import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,5 @@ public interface IGoogleBooksApi {
 
     List<GoogleBook> slice();
     List<GoogleBook> sliceWithGenre(String genre);
+    HashMap<String, String> availableGenres();
 }
