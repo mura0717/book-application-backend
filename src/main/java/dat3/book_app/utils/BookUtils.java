@@ -11,7 +11,7 @@ public class BookUtils {
             "?q=%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
     );
 
-    public final List<String> BASE_PARAMS_WITH_FILTER = Arrays.asList(
+    public final List<String> BASE_PARAMS_WITH_GENRE = Arrays.asList(
             "?q=%s+subject:%s&maxResults=16&printType=books&filter=paid-ebooks",
             "?q=%s+subject:%s&maxResults=16&printType=books&filter=paid-ebooks&langRestrict=da"
     );

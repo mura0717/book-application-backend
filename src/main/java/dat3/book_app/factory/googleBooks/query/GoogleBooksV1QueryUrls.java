@@ -31,8 +31,8 @@ public class GoogleBooksV1QueryUrls implements GoogleBooksQueryUrls {
     public String queryRandomBooksWithGenre(String genre) {
         Random random = new Random();
 
-        int randomBaseParamIndex = random.nextInt(bookUtils.BASE_PARAMS_WITH_FILTER.size());
-        String baseParams = bookUtils.BASE_PARAMS_WITH_FILTER.get(randomBaseParamIndex);
+        int randomBaseParamIndex = random.nextInt(bookUtils.BASE_PARAMS_WITH_GENRE.size());
+        String baseParams = bookUtils.BASE_PARAMS_WITH_GENRE.get(randomBaseParamIndex);
 
         // retrieve book title word list for specific genre
         List<String> qList =  bookUtils.GENRE_WORDS_MAP.entrySet().stream()
