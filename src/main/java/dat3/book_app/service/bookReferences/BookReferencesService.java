@@ -1,10 +1,9 @@
 package dat3.book_app.service.bookReferences;
 
 import dat3.book_app.dto.bookReferences.BookReferenceResponse;
-import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.entity.books.GoogleBook;
-import dat3.book_app.factory.googleBooks.GoogleBooksQueryUrls;
+import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
 import dat3.book_app.repository.BooklistRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
