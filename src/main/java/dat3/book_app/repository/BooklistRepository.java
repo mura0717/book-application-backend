@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BooklistRepository extends JpaRepository<Booklist, String> {
+    boolean existsByTitleLike(String title);
     List<Booklist> findByMember_UsernameLike(@NonNull String username);
 }

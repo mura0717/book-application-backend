@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
-
 import java.util.List;
+import static org.springframework.http.HttpStatus.NOT_MODIFIED;
 
 @Service
 public class UserBookLists implements BookLists {
@@ -59,9 +59,12 @@ public class UserBookLists implements BookLists {
 
     @Override
     public BookReferencesTitleRespons create(BookListCreateRequest request, String username) {
+        var exists = _bookLists.existsByTitleLike(request.getTitle());
+        if(exists)
+            throw new HttpServerErrorException(NOT_MODIFIED,"Already exists");
         var member = _members.findByUsernameLike(username).orElse(null);
         if(member == null)
-            throw new HttpServerErrorException(HttpStatus.NOT_MODIFIED,"Member not found");
+            throw new HttpServerErrorException(NOT_MODIFIED,"Member not found");
         var bookList = request.toBookList(member);
         var saved = _bookLists.saveAndFlush(bookList);
         return new BookReferencesTitleRespons(saved);
