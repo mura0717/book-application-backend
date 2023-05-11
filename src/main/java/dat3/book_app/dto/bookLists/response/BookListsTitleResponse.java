@@ -1,4 +1,4 @@
-package dat3.book_app.dto.bookLists;
+package dat3.book_app.dto.bookLists.response;
 
 import dat3.book_app.entity.bookLists.Booklist;
 import lombok.Getter;
@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookReferencesTitleRespons {
-    public BookReferencesTitleRespons(Booklist bookList) {
+public class BookListsTitleResponse {
+    public BookListsTitleResponse(Booklist bookList) {
         title = bookList.getTitle();
         id = bookList.getId();
     }

@@ -1,9 +1,13 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.bookLists.*;
+import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
+import dat3.book_app.dto.bookLists.response.BookListFullResponse;
+import dat3.book_app.dto.bookLists.response.BookListMinimumResponse;
+import dat3.book_app.dto.bookLists.response.BookListUpdateResponse;
+import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,9 +26,9 @@ public class BookListController {
         this.googleBooks = googleBooks;
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<String> addToBooklist(@RequestBody BookListUpdateRequest request){
-        return bookLists.Update(request);
+    @PatchMapping("/addToBookList")
+    public BookListUpdateResponse addToBooklist(@RequestBody BookListUpdateRequest request){
+        return bookLists.addToBookList(request);
     }
 
     @GetMapping
@@ -42,12 +46,12 @@ public class BookListController {
     }
 
     @PostMapping("/create")
-    public BookReferencesTitleRespons create(@RequestBody BookListCreateRequest request, Principal principal){
+    public BookListsTitleResponse create(@RequestBody BookListCreateRequest request, Principal principal){
         return bookLists.create(request,principal.getName());
     }
 
     @GetMapping("/titles")
-    public List<BookReferencesTitleRespons> getTitles(Principal principal){
+    public List<BookListsTitleResponse> getTitles(Principal principal){
         return bookLists.listTitles(principal.getName());
     }
 }

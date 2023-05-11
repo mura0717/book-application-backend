@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class BookReferenceRequest {
-
     private List<BookReferenceResponse> books = new ArrayList<>();
 
     public BookReferenceRequest(List<BookReferenceResponse> books) {

@@ -1,4 +1,4 @@
-package dat3.book_app.dto.bookLists;
+package dat3.book_app.dto.bookLists.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,4 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BookListUpdateResponse {
     private String message;
+    private boolean status;
+
 }

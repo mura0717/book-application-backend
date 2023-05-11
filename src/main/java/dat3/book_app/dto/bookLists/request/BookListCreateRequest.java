@@ -1,4 +1,4 @@
-package dat3.book_app.dto.bookLists;
+package dat3.book_app.dto.bookLists.request;
 
 import dat3.book_app.entity.Member;
 import dat3.book_app.entity.bookLists.Booklist;
