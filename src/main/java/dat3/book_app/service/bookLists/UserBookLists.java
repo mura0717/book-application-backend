@@ -70,7 +70,8 @@ public class UserBookLists implements BookLists {
             return new BookListCreateResponse("Member doesn't exist",false);
         var bookList = request.toBookList(member);
         var saved = _bookLists.saveAndFlush(bookList);
-        return new BookListCreateResponse("OK",true,saved);
+        var count = _bookLists.count();
+        return new BookListCreateResponse("OK",,count,true,saved);
     }
 
     @Override
