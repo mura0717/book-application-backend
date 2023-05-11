@@ -4,7 +4,10 @@ import dat3.book_app.dto.bookLists.BookListFullResponse;
 import dat3.book_app.dto.bookLists.BookListMinimumResponse;
 import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.dto.books.BookDetailsResponse;
+import dat3.book_app.dto.books.BookMinimalResponse;
+import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.books.search.BookSearchResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
@@ -42,12 +45,12 @@ public class BookController {
     }
 
     @GetMapping("search")
-    public List<GoogleBook> searchedBooks(@RequestParam String query) {
+    public List<BookSearchResponse> searchedBooks(@RequestParam String query) {
         return googleBooks.bySearch(query);
     }
 
     @GetMapping("slice")
-    public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
+    public List<BookPaginatedResponse> slicedBooks(@RequestParam Optional<String> genre) {
         if (genre.isPresent())
             return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
