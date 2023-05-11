@@ -28,6 +28,11 @@ public class BookListController {
         return bookLists.addToBookList(request);
     }
 
+    @PatchMapping("/removeFromBookList")
+    public boolean removeFromBookList(@RequestBody BookListUpdateRequest request){
+        return bookLists.removeFromBookList(request);
+    }
+
     @GetMapping
     public List<BookListWithReferences> bookLists(Principal principal){
         if(principal == null)

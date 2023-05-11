@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookListCreateResponse {
-    public BookListCreateResponse(String message, int listCount, boolean status, Booklist booklist) {
+    public BookListCreateResponse(String message, long listCount, boolean status, Booklist booklist) {
         id = booklist.getId();
         title = booklist.getTitle();
         this.listCount = listCount;
@@ -24,8 +24,7 @@ public class BookListCreateResponse {
         this.status = status;
     }
 
-    private int listCount;
-
+    private long listCount;
     private String message;
     private boolean status;
     private String title;

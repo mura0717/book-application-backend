@@ -11,6 +11,7 @@ public interface BookLists {
     List<BookListsTitleResponse> getBookListWithTitles(String username);
     BookListWithBooks getBookListWithBooks(String id);
     BookListUpdateResponse addToBookList(BookListUpdateRequest request);
+    boolean removeFromBookList(BookListUpdateRequest request);
     BookListCreateResponse createBookList(BookListCreateRequest request, String username);
     boolean bookAlreadyAdded(String bookListId, String bookReference);
 }

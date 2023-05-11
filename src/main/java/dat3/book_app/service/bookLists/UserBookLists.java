@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
-import static org.springframework.http.HttpStatus.NOT_MODIFIED;
 
 @Service
 public class UserBookLists implements BookLists {
@@ -61,6 +60,17 @@ public class UserBookLists implements BookLists {
     }
 
     @Override
+    public boolean removeFromBookList(BookListUpdateRequest request) {
+        var bookList = _bookLists.findById(request.getBookListId())
+                .orElse(null);
+        if(bookList == null)
+            return false;
+        bookList.getBookReferences().remove(request.getBookReference());
+        _bookLists.save(bookList);
+        return true;
+    }
+
+    @Override
     public BookListCreateResponse createBookList(BookListCreateRequest request, String username) {
         var exists = _bookLists.existsByTitleLike(request.getTitle());
         if(exists)
@@ -71,7 +81,7 @@ public class UserBookLists implements BookLists {
         var bookList = request.toBookList(member);
         var saved = _bookLists.saveAndFlush(bookList);
         var count = _bookLists.count();
-        return new BookListCreateResponse("OK",,count,true,saved);
+        return new BookListCreateResponse("OK", count,true,saved);
     }
 
     @Override
