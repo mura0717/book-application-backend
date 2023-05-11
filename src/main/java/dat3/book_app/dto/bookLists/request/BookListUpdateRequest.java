@@ -1,4 +1,4 @@
-package dat3.book_app.dto.bookLists;
+package dat3.book_app.dto.bookLists.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

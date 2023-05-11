@@ -1,6 +1,5 @@
 package dat3.book_app.service.bookReferences;
 
-import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.BookReferenceResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
@@ -10,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
+import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Objects;
 
