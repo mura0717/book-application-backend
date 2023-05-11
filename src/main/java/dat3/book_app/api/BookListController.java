@@ -52,4 +52,9 @@ public class BookListController {
     public List<BookListsTitleResponse> getTitles(Principal principal){
         return bookLists.getBookListWithTitles(principal.getName());
     }
+
+    @GetMapping("/alreadyExists")
+    public boolean checkIfAlreadyAdded(String bookListId, String bookReference){
+        return bookLists.bookAlreadyAdded(bookListId,bookReference);
+    }
 }
