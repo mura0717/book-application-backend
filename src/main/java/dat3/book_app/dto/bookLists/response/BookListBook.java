@@ -1,6 +1,5 @@
-package dat3.book_app.dto.bookLists;
+package dat3.book_app.dto.bookLists.response;
 
-import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.entity.books.GoogleBook;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,8 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookReferenceResponse {
-
-    public BookReferenceResponse(GoogleBook googleBook) {
+public class BookListBook {
+    public BookListBook(GoogleBook googleBook) {
         id = googleBook.getId();
         title = googleBook.getVolumeInfo().getTitle();
         authors = googleBook.getVolumeInfo().getAuthors();
@@ -31,8 +29,4 @@ public class BookReferenceResponse {
     private double priceAmount;
     private String currency;
     private String image = "";
-
-
 }
-
-

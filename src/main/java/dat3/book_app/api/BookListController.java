@@ -2,8 +2,8 @@ package dat3.book_app.api;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
-import dat3.book_app.dto.bookLists.response.BookListFullResponse;
-import dat3.book_app.dto.bookLists.response.BookListMinimumResponse;
+import dat3.book_app.dto.bookLists.response.BookListWithBooks;
+import dat3.book_app.dto.bookLists.response.BookListWithReferences;
 import dat3.book_app.dto.bookLists.response.BookListUpdateResponse;
 import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
 import dat3.book_app.service.bookLists.BookLists;
@@ -32,26 +32,24 @@ public class BookListController {
     }
 
     @GetMapping
-    public List<BookListMinimumResponse> bookLists(Principal principal){
+    public List<BookListWithReferences> bookLists(Principal principal){
         if(principal == null)
             return new ArrayList<>();
-        return bookLists.bookLists(principal.getName());
+        return bookLists.getBookListWithReferences(principal.getName());
     }
 
     @GetMapping("/")
-    public BookListFullResponse bookList(String id){
-        var bookList = bookLists.bookList(id);
-        var books = googleBooks.fromReferences(bookList.getBookReferences());
-        return new BookListFullResponse(bookList,books);
+    public BookListWithBooks bookList(String id){
+        return bookLists.getBookListWithBooks(id);
     }
 
     @PostMapping("/create")
     public BookListsTitleResponse create(@RequestBody BookListCreateRequest request, Principal principal){
-        return bookLists.create(request,principal.getName());
+        return bookLists.createBookList(request,principal.getName());
     }
 
     @GetMapping("/titles")
     public List<BookListsTitleResponse> getTitles(Principal principal){
-        return bookLists.listTitles(principal.getName());
+        return bookLists.getBookListWithTitles(principal.getName());
     }
 }
