@@ -2,7 +2,10 @@ package dat3.book_app.service.googleBooks;
 
 import dat3.book_app.dto.bookLists.response.BookListBook;
 import dat3.book_app.dto.books.BookDetailsResponse;
+
+import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.books.search.BookSearchResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.entity.books.GoogleBooksAPIResponse;
@@ -70,24 +73,24 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<GoogleBook> bySearch(String query) {
+    public List<BookSearchResponse> bySearch(String query) {
         var uri = String.format("%s?q='%s'&maxResults=5&filter=paid-ebooks&langRestrict",Uri,query);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);
-        return response != null ? response.getItems() : new ArrayList<>();
+        return response.getItems().stream().map(b -> new BookSearchResponse(b)).toList();
     }
 
     @Override
-    public List<GoogleBook> slice() {
+    public List<BookPaginatedResponse> slice() {
         String fullURI = _queryUrls.queryRandomBooks();
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
-        return response != null ? response.getItems() : new ArrayList<>();
+        return response.getItems().stream().map(b -> new BookPaginatedResponse(b)).toList();
     }
 
     @Override
-    public List<GoogleBook> sliceWithGenre(String genre) {
+    public List<BookPaginatedResponse> sliceWithGenre(String genre) {
         String fullURI = _queryUrls.queryRandomBooksWithGenre(genre);
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
-        return response != null ? response.getItems() : new ArrayList<>();
+        return response.getItems().stream().map(b -> new BookPaginatedResponse(b)).toList();
     }
 
     @Override

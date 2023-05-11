@@ -1,5 +1,7 @@
 package dat3.book_app.service.googleBooks;
 
+import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
+import dat3.book_app.dto.books.search.BookSearchResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksV1Filters;
@@ -21,15 +23,26 @@ class GoogleBooksApiTest {
 
     @Test
     void bySearch() {
-        List<GoogleBook> responses = googleBooksApi.bySearch("Harry Potter");
+        List<BookSearchResponse> responses = googleBooksApi.bySearch("Harry Potter");
         assertEquals(true, responses != null);
         assertEquals(true, responses.size() > 0);
-        assertEquals(true, responses.stream().allMatch(res -> res.getVolumeInfo().getTitle().contains("Harry Potter")));
+        assertEquals(true, responses.stream().allMatch(res -> res.getTitle().contains("Harry Potter")));
+    }
+
+    @Test
+    void byAuthor() {
+        List<GoogleBook> responses1 = googleBooksApi.getBooksByAuthor("J.K. Rowling");
+        assertEquals(true, responses1 != null);
+        assertEquals(true, responses1.size() > 0);
+
+        List<GoogleBook> responses2 = googleBooksApi.getBooksByAuthor("George R.R. Martin");
+        assertEquals(true, responses2 != null);
+        assertEquals(true, responses2.size() > 0);
     }
 
     @Test
     void slice() {
-        List<GoogleBook> responses = googleBooksApi.slice();
+        List<BookPaginatedResponse> responses = googleBooksApi.slice();
         assertEquals(true, responses != null);
         assertEquals(true, responses.size() > 0);
     }
