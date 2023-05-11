@@ -1,27 +1,29 @@
 package dat3.book_app.service.bookReferences;
 
-import dat3.book_app.dto.bookReferences.BookReferenceResponse;
-import dat3.book_app.entity.bookLists.Booklist;
+import dat3.book_app.dto.bookLists.BookListUpdateRequest;
+import dat3.book_app.dto.bookLists.BookReferenceResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
 import dat3.book_app.repository.BooklistRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class BookReferencesService {
 
     private final String Uri = "https://www.googleapis.com/books/v1/volumes";
-    private final BooklistRepository _bookLists;
+    private final BooklistRepository booklistRepository;
     private final GoogleBooksQueryUrls _queryUrls;
 
     public BookReferencesService(BooklistRepository _bookLists, GoogleBooksQueryUrls _queryUrls) {
-        this._bookLists = _bookLists;
+        this.booklistRepository = _bookLists;
         this._queryUrls = _queryUrls;
     }
 
@@ -36,22 +38,34 @@ public class BookReferencesService {
                 .map(BookReferenceResponse::new).toList();
     }
 
-    public BookReferenceResponse addBookReference(Booklist booklist, String referenceId) {
-        // Check if the reference already exists in the book list
-        if (booklist.getBookReferences().contains(referenceId)) {
-            throw new IllegalArgumentException("The reference already exists in the book list");
+    public ResponseEntity<String> addBookReference(BookListUpdateRequest request) {
+        var booklist = booklistRepository.findById(request.getBookListId())
+                .orElse(null);
+        if (booklist == null) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Booklist not found");
         }
+        var referenceId = request.getBookReference();
+        if (booklist.getBookReferences().contains(referenceId)) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Book already exists in list");
+        }
+        booklist.getBookReferences().add(referenceId);
+        booklistRepository.save(booklist);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-        // Get the book information from the Google Books API
-        var query = String.format("%s/%s", Uri, referenceId);
-        var book = getRequestAsync(query, GoogleBook.class).block();
-
-        // Create a new book reference and add it to the book list
-        var bookReference = "https://www.googleapis.com/books/v1/volumes/12345";
-        booklist.getBookReferences().add(bookReference);
-
-        // Return the book reference response
-        return new BookReferenceResponse(book);
+    public ResponseEntity<String> removeBookReference(BookListUpdateRequest request) {
+        var booklist = booklistRepository.findById(request.getBookListId())
+                .orElse(null);
+        if (booklist == null) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Booklist not found");
+        }
+        var referenceId = request.getBookReference();
+        if (!booklist.getBookReferences().contains(referenceId)) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "Book does not exist in list");
+        }
+        booklist.getBookReferences().remove(referenceId);
+        booklistRepository.save(booklist);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

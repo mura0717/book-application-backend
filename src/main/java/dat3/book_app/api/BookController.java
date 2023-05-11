@@ -1,6 +1,6 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.bookReferences.BookReferenceResponse;
+import dat3.book_app.dto.bookLists.BookReferenceResponse;
 import dat3.book_app.dto.books.BookDetailsResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.entity.bookLists.Booklist;

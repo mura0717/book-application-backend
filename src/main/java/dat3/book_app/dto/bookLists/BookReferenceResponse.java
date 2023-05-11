@@ -1,4 +1,4 @@
-package dat3.book_app.dto.bookReferences;
+package dat3.book_app.dto.bookLists;
 
 import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.entity.books.GoogleBook;

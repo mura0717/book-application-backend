@@ -22,7 +22,7 @@ public class BookListController {
         this.googleBooks = googleBooks;
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/addToBookList")
     public ResponseEntity<String> addToBooklist(@RequestBody BookListUpdateRequest request){
         return bookLists.Update(request);
     }
