@@ -11,8 +11,8 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BookListBook {
-    public BookListBook(GoogleBook googleBook) {
+public class BookListBookRefResponse {
+    public BookListBookRefResponse(GoogleBook googleBook) {
         id = googleBook.getId();
         title = googleBook.getVolumeInfo().getTitle();
         authors = googleBook.getVolumeInfo().getAuthors();
