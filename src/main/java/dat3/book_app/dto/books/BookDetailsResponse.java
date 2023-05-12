@@ -37,5 +37,4 @@ public class BookDetailsResponse {
     private String buyLink = "";
     private String description = "";
     private String publisher = "";
-    private List<BookListsTitleResponse> bookLists;
 }

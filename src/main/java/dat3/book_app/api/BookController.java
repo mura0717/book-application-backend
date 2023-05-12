@@ -54,7 +54,7 @@ public class BookController {
     @GetMapping("available-genres")
     public HashMap<String, String> genres() {
         return googleBooks.availableGenres();
-    }
+    }   
 
     @GetMapping("recommendations")
     public List<BookRecommendationResponse> recommended(String author, String title){
