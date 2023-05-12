@@ -7,6 +7,9 @@ import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksV1Filters;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksV1QueryUrls;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
+import dat3.book_app.service.googleBooks.subjectFactory.BookResponseComparable;
+import dat3.book_app.service.googleBooks.subjectFactory.BooksTestResponses;
+import dat3.book_app.service.http.HttpFetch;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -16,10 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class GoogleBooksApiTest {
+    final BooksTestResponses testResponses = new BooksTestResponses();
 
     GoogleBooksQueryUrls googleBooksParamsFactory = new GoogleBooksV1QueryUrls();
     GoogleBooksFilters googleBooksFilters = new GoogleBooksV1Filters();
-    GoogleBooksApi googleBooksApi = new GoogleBooksApi(googleBooksParamsFactory, googleBooksFilters);
+    GoogleBooksApi googleBooksApi = new GoogleBooksApi(googleBooksParamsFactory, new HttpFetch(), googleBooksFilters);
 
     @Test
     void bySearch() {
@@ -45,5 +49,13 @@ class GoogleBooksApiTest {
         List<BookPaginatedResponse> responses = googleBooksApi.slice();
         assertEquals(true, responses != null);
         assertEquals(true, responses.size() > 0);
+    }
+
+    @Test
+    void getBookByReference(){
+        var subject = testResponses.fateFulTriangleByNoamChomsky();
+        var comparable = new BookResponseComparable(subject);
+        var response = googleBooksApi.getBookByReference(subject.getReference());
+        assertTrue(comparable.equals(response));
     }
 }
