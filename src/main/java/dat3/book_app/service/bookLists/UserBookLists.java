@@ -1,54 +1,94 @@
 package dat3.book_app.service.bookLists;
 
-import dat3.book_app.dto.bookLists.BookListMinimumResponse;
-import dat3.book_app.dto.bookLists.BookListUpdateRequest;
-import dat3.book_app.entity.bookLists.Booklist;
+import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
+import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.repository.BooklistRepository;
-import org.json.JSONObject;
+import dat3.book_app.service.googleBooks.IGoogleBooksApi;
+import dat3.security.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
 @Service
 public class UserBookLists implements BookLists {
-    private final BooklistRepository _repository;
+    private final BooklistRepository _bookLists;
+    private final IGoogleBooksApi googleBooks;
+    private final MemberRepository _members;
 
-    public UserBookLists(BooklistRepository repository) {
-        _repository = repository;
+    public UserBookLists(BooklistRepository repository, IGoogleBooksApi googleBooks, MemberRepository members) {
+        _bookLists = repository;
+        this.googleBooks = googleBooks;
+        _members = members;
     }
 
     @Override
-    public List<BookListMinimumResponse> bookLists(String username) {
-        var userLists = _repository.findByMember_UsernameLike(username);
-        return userLists.stream().map(BookListMinimumResponse::new).toList();
+    public List<BookListWithReferences> getBookListWithReferences(String username) {
+        var userLists = _bookLists.findByMember_UsernameLike(username);
+        return userLists.stream().map(BookListWithReferences::new).toList();
     }
 
     @Override
-    public Booklist bookList(String id) {
-        return _repository.findById(id).orElse(null);
+    public List<BookListsTitleResponse> getBookListWithTitles(String username) {
+        var userLists = _bookLists.findByMember_UsernameLike(username);
+        return userLists.stream().map(BookListsTitleResponse::new).toList();
     }
 
     @Override
-    public ResponseEntity<String> Update(BookListUpdateRequest request) {
-        var bookList = _repository.findById(request.getBookListId())
+    public BookListWithBooks getBookListWithBooks(String id) {
+        var bookList = _bookLists.findById(id).orElse(null);
+        if(bookList == null)
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+        var books = googleBooks.getBooksByReferences(bookList.getBookReferences());
+        return new BookListWithBooks(bookList,books);
+    }
+
+    @Override
+    public BookListUpdateResponse addToBookList(BookListUpdateRequest request) {
+        var bookList = _bookLists.findById(request.getBookListId())
                 .orElse(null);
         if(bookList == null)
-            return errorResponse("BookList not found");
+            return new BookListUpdateResponse("BookList not found",false);
         var bookReferences = bookList.getBookReferences();
-        var isPresent = bookReferences.contains(request.getBookId());
+        var isPresent = bookReferences.contains(request.getBookReference());
         if(isPresent)
-            return errorResponse("Book already present");
-        bookReferences.add(request.getBookId());
-        _repository.save(bookList);
-        return new ResponseEntity<>(HttpStatus.OK);
+            return new BookListUpdateResponse("Book already added",false);
+        bookReferences.add(request.getBookReference());
+        _bookLists.save(bookList);
+        return new BookListUpdateResponse("Ok",true);
     }
 
-    private ResponseEntity<String> errorResponse(String message){
-        var jsonObject = new JSONObject();
-        jsonObject.put("message",message);
-        var json = jsonObject.toString();
-        return new ResponseEntity<>(json,HttpStatus.INTERNAL_SERVER_ERROR);
+    @Override
+    public boolean removeFromBookList(BookListUpdateRequest request) {
+        var bookList = _bookLists.findById(request.getBookListId())
+                .orElse(null);
+        if(bookList == null)
+            return false;
+        bookList.getBookReferences().remove(request.getBookReference());
+        _bookLists.save(bookList);
+        return true;
+    }
+
+    @Override
+    public BookListCreateResponse createBookList(BookListCreateRequest request, String username) {
+        var exists = _bookLists.existsByTitleLike(request.getTitle());
+        if(exists)
+            return new BookListCreateResponse("Booklist already exist",false);
+        var member = _members.findByUsernameLike(username).orElse(null);
+        if(member == null)
+            return new BookListCreateResponse("Member doesn't exist",false);
+        var bookList = request.toBookList(member);
+        var saved = _bookLists.saveAndFlush(bookList);
+        var count = _bookLists.count();
+        return new BookListCreateResponse("OK", count,true,saved);
+    }
+
+    @Override
+    public boolean bookAlreadyAdded(String bookListId, String bookReference) {
+        var bookList = _bookLists.findById(bookListId).orElse(null);
+        if(bookList == null)
+            throw new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found");
+        return bookList.getBookReferences().contains(bookReference);
     }
 }

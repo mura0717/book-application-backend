@@ -1,22 +1,15 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.bookLists.BookListFullResponse;
-import dat3.book_app.dto.bookLists.BookListMinimumResponse;
-import dat3.book_app.dto.bookLists.BookListUpdateRequest;
 import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.BookMinimalResponse;
 import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.dto.books.search.BookSearchResponse;
 import dat3.book_app.entity.books.GoogleBook;
-import dat3.book_app.service.bookLists.BookLists;
+import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -24,24 +17,25 @@ import java.util.Optional;
 @RequestMapping("/api/books")
 @CrossOrigin
 public class BookController {
-    private final BookLists bookLists;
     private final IGoogleBooksApi googleBooks;
     private final AIBookService aiBookService;
 
-    public BookController(BookLists bookLists, IGoogleBooksApi googleBooks, AIBookService aiBookService) {
-        this.bookLists = bookLists;
+    private final BooklistRepository booklistRepository;
+
+    public BookController(IGoogleBooksApi googleBooks, AIBookService aiBookService, BooklistRepository booklistRepository) {
         this.googleBooks = googleBooks;
         this.aiBookService = aiBookService;
+        this.booklistRepository = booklistRepository;
     }
 
     @GetMapping("author")
     public List<GoogleBook> books(String author){
-        return googleBooks.byAuthor(author);
+        return googleBooks.getBooksByAuthor(author);
     }
 
     @GetMapping("reference")
     public BookDetailsResponse book(String reference){
-        return googleBooks.fromReference(reference);
+        return googleBooks.getBookByReference(reference);
     }
 
     @GetMapping("search")
@@ -55,30 +49,6 @@ public class BookController {
             return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
     }
-
-    @GetMapping("available-genres")
-    public HashMap<String, String> genres() {
-        return googleBooks.availableGenres();
-    }
-
-    @PatchMapping("updateList")
-     public ResponseEntity<String> updateBookList(@RequestBody BookListUpdateRequest request){
-        return bookLists.Update(request);
-    }
-
-    @GetMapping("bookLists")
-    public List<BookListMinimumResponse> bookLists(Principal principal){
-        if(principal == null)
-            return new ArrayList<>();
-        return bookLists.bookLists(principal.getName());
-    }
-
-    public BookListFullResponse bookList(String id){
-        var bookList = bookLists.bookList(id);
-        var books = googleBooks.fromReferences(bookList.getBookReferences());
-        return new BookListFullResponse(bookList,books);
-    }
-
     @GetMapping("recommendations")
     public List<BookRecommendationResponse> recommended(String author, String title){
         var aiResponse = aiBookService.recommendations(author,title,5);

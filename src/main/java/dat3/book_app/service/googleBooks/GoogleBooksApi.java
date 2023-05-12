@@ -1,7 +1,8 @@
 package dat3.book_app.service.googleBooks;
 
+import dat3.book_app.dto.bookLists.response.BookListBook;
 import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.BookMinimalResponse;
+
 import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
 import dat3.book_app.dto.books.search.BookSearchResponse;
@@ -9,11 +10,11 @@ import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.entity.books.GoogleBooksAPIResponse;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
-import dat3.book_app.factory.googleBooks.filters.GoogleBooksV1Filters;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,25 +34,25 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public BookDetailsResponse fromReference(String bookReference){
+    public BookDetailsResponse getBookByReference(String bookReference){
         var query = String.format("%s/%s",Uri,bookReference);
         var response = getRequest(query, GoogleBook.class);
         return response != null ? new BookDetailsResponse(response) : new BookDetailsResponse();
     }
 
     @Override
-    public List<BookMinimalResponse> fromReferences(List<String> references) {
+    public List<BookListBook> getBooksByReferences(List<String> references) {
         return references.stream().map(r -> {
                 var query = String.format("%s/%s",Uri,r);
                 return  getRequestAsync(query, GoogleBook.class);
             })
             .map(m -> m.block())
             .filter(Objects::nonNull)
-            .map(BookMinimalResponse::new).toList();
+            .map(BookListBook::new).toList();
     }
 
     @Override
-    public List<GoogleBook> byAuthor(String author){
+    public List<GoogleBook> getBooksByAuthor(String author){
         var uri = _queryUrls.queryBookByAuthor(author);
         var response = getRequest(uri,GoogleBooksAPIResponse.class);
         return response != null ? response.getItems() : new ArrayList<>();
@@ -84,7 +85,6 @@ public class GoogleBooksApi implements IGoogleBooksApi {
         var response = getRequest(fullURI,GoogleBooksAPIResponse.class);
         return response.getItems().stream().map(b -> new BookPaginatedResponse(b)).toList();
     }
-
 
     @Override
     public List<BookPaginatedResponse> sliceWithGenre(String genre) {

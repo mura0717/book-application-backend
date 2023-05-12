@@ -31,11 +31,11 @@ class GoogleBooksApiTest {
 
     @Test
     void byAuthor() {
-        List<GoogleBook> responses1 = googleBooksApi.byAuthor("J.K. Rowling");
+        List<GoogleBook> responses1 = googleBooksApi.getBooksByAuthor("J.K. Rowling");
         assertEquals(true, responses1 != null);
         assertEquals(true, responses1.size() > 0);
 
-        List<GoogleBook> responses2 = googleBooksApi.byAuthor("George R.R. Martin");
+        List<GoogleBook> responses2 = googleBooksApi.getBooksByAuthor("George R.R. Martin");
         assertEquals(true, responses2 != null);
         assertEquals(true, responses2.size() > 0);
     }

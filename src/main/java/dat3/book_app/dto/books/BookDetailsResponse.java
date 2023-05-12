@@ -1,11 +1,13 @@
 package dat3.book_app.dto.books;
 
+import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,4 +37,5 @@ public class BookDetailsResponse {
     private String buyLink = "";
     private String description = "";
     private String publisher = "";
+    private List<BookListsTitleResponse> bookLists;
 }
