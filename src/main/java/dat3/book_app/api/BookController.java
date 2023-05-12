@@ -10,6 +10,7 @@ import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,12 @@ public class BookController {
             return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
     }
+
+    @GetMapping("available-genres")
+    public HashMap<String, String> genres() {
+        return googleBooks.availableGenres();
+    }
+
     @GetMapping("recommendations")
     public List<BookRecommendationResponse> recommended(String author, String title){
         var aiResponse = aiBookService.recommendations(author,title,5);
