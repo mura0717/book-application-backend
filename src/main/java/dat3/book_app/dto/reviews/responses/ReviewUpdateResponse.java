@@ -1,4 +1,4 @@
-package dat3.book_app.dto.reviews;
+package dat3.book_app.dto.reviews.responses;
 
 import dat3.book_app.entity.Review;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReviewResponse {
+public class ReviewUpdateResponse {
     private String reviewId;
     private String review;
     private int rating;
@@ -16,8 +16,9 @@ public class ReviewResponse {
     private boolean editable;
     private String bookReference;
 
-    public static ReviewResponse fromReview(Review reviewEntity){
-        var response = new ReviewResponse();
+    public static ReviewUpdateResponse fromReview(Review reviewEntity, boolean editable){
+        var response = new ReviewUpdateResponse();
+        response.editable = editable;
         response.review  = reviewEntity.getComment();
         response.rating = reviewEntity.getStars();
         response.username = reviewEntity.getMember().getUsername();

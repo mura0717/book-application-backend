@@ -1,4 +1,4 @@
-package dat3.book_app.dto.reviews;
+package dat3.book_app.dto.reviews.requests;
 
 import dat3.book_app.entity.Review;
 import lombok.Getter;
