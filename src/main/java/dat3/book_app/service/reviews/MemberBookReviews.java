@@ -1,7 +1,8 @@
 package dat3.book_app.service.reviews;
 
-import dat3.book_app.dto.reviews.ReviewAddRequest;
+import dat3.book_app.dto.reviews.ReviewUpdateRequest;
 import dat3.book_app.dto.reviews.ReviewResponse;
+import dat3.book_app.entity.Review;
 import dat3.book_app.repository.ReviewRepository;
 import dat3.security.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,16 @@ public class MemberBookReviews implements BookReviews {
     }
 
     @Override
-    public ReviewResponse addReview(ReviewAddRequest request, String username){
+    public ReviewResponse addReview(ReviewUpdateRequest request, String username){
         var member = _memberRepository.findByUsernameLike(username).orElse(null);
         if(member == null)
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND,"Member not found");
-        var reviewEntity = request.toReview();
+        var review = _reviewRepository.findById(request.getReviewId());
+        Review reviewEntity;
+        if(review.isPresent())
+            reviewEntity = request.toUpdatedReview(review.get());
+        else
+            reviewEntity = request.toReview();
         reviewEntity.setMember(member);
         _reviewRepository.save(reviewEntity);
         return ReviewResponse.fromReview(reviewEntity);

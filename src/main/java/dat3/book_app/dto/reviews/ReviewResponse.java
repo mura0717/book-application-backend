@@ -13,6 +13,8 @@ public class ReviewResponse {
     private String review;
     private int rating;
     private String username;
+    private boolean editable;
+    private String bookReference;
 
     public static ReviewResponse fromReview(Review reviewEntity){
         var response = new ReviewResponse();
@@ -20,6 +22,7 @@ public class ReviewResponse {
         response.rating = reviewEntity.getStars();
         response.username = reviewEntity.getMember().getUsername();
         response.reviewId = reviewEntity.getId();
+        response.bookReference = reviewEntity.getBookReference();
         return response;
     }
 }

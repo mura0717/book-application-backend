@@ -1,6 +1,6 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.reviews.ReviewAddRequest;
+import dat3.book_app.dto.reviews.ReviewUpdateRequest;
 import dat3.book_app.dto.reviews.ReviewResponse;
 import dat3.book_app.service.reviews.BookReviews;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class ReviewController {
     }
 
     @PostMapping("add")
-    public ReviewResponse add(@RequestBody ReviewAddRequest request, Principal principal){
+    public ReviewResponse update(@RequestBody ReviewUpdateRequest request, Principal principal){
         return _bookReviews.addReview(request,principal.getName());
     }
 
