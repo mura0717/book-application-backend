@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReviewRemoveRequest {
+public class ReviewDeleteRequest {
     private String reviewId;
 }

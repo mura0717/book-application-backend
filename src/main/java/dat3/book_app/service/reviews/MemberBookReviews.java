@@ -1,7 +1,6 @@
 package dat3.book_app.service.reviews;
 
 import dat3.book_app.dto.reviews.requests.ReviewUpdateRequest;
-import dat3.book_app.dto.reviews.responses.ReviewRemoveResponse;
 import dat3.book_app.dto.reviews.responses.ReviewUpdateResponse;
 import dat3.book_app.entity.Review;
 import dat3.book_app.repository.ReviewRepository;
@@ -53,14 +52,14 @@ public class MemberBookReviews implements BookReviews {
     }
 
     @Override
-    public ReviewRemoveResponse removeReview(String reviewId, String username) {
+    public boolean removeReview(String reviewId, String username) {
         var deleteCandidate = _reviewRepository.findById(reviewId).orElse(null);
         if(deleteCandidate == null)
             throw new HttpServerErrorException(NOT_FOUND,"Review not found");
         if(!deleteCandidate.getMember().getUsername().equals(username))
             throw new HttpServerErrorException(FORBIDDEN,"Not allowed");
         _reviewRepository.delete(deleteCandidate);
-        return new ReviewRemoveResponse(true);
+        return true;
     }
 
     private Review findUpdateCandidate(ReviewUpdateRequest request, String username){

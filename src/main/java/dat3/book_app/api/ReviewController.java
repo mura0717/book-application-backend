@@ -1,7 +1,7 @@
 package dat3.book_app.api;
 
+import dat3.book_app.dto.reviews.requests.ReviewDeleteRequest;
 import dat3.book_app.dto.reviews.requests.ReviewUpdateRequest;
-import dat3.book_app.dto.reviews.responses.ReviewRemoveResponse;
 import dat3.book_app.dto.reviews.responses.ReviewUpdateResponse;
 import dat3.book_app.service.reviews.BookReviews;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +29,8 @@ public class ReviewController {
         return _bookReviews.reviews(bookReference,principal.getName());
     }
 
-    @PatchMapping
-    public ReviewRemoveResponse remove(String reviewId, Principal principal){
-        return _bookReviews.removeReview(reviewId,principal.getName());
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestBody ReviewDeleteRequest request, Principal principal){
+        return _bookReviews.removeReview(request.getReviewId(),principal.getName());
     }
 }
