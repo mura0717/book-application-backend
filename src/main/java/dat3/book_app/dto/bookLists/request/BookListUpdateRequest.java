@@ -11,8 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookListUpdateRequest {
-    @JsonProperty("bookId")
-    private String bookReference = "";
-    @JsonProperty("bookListId")
+    private String bookId = "";
     private String bookListId = "";
+    private String title = "";
 }

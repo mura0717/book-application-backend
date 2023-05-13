@@ -51,10 +51,10 @@ public class UserBookLists implements BookLists {
         if(bookList == null)
             return new BookListUpdateResponse("BookList not found",false);
         var bookReferences = bookList.getBookReferences();
-        var isPresent = bookReferences.contains(request.getBookReference());
+        var isPresent = bookReferences.contains(request.getBookId());
         if(isPresent)
             return new BookListUpdateResponse("Book already added",false);
-        bookReferences.add(request.getBookReference());
+        bookReferences.add(request.getBookId());
         _bookLists.save(bookList);
         return new BookListUpdateResponse("Ok",true);
     }
@@ -65,7 +65,7 @@ public class UserBookLists implements BookLists {
                 .orElse(null);
         if(bookList == null)
             return false;
-        bookList.getBookReferences().remove(request.getBookReference());
+        bookList.getBookReferences().remove(request.getBookId());
         _bookLists.save(bookList);
         return true;
     }
