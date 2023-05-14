@@ -108,4 +108,13 @@ public class BookListsService implements BookLists {
         Booklist updatedBookList = _bookLists.save(bookListToEdit);
         return new BookListUpdateResponse(updatedBookList);
     }
+
+    @Override
+    public BookListUpdateResponse removeFromBookList (BookListUpdateRequest request){
+        Booklist bookList = _bookLists.findById(request.getBookListId()).orElseThrow(() ->
+        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        bookList.getBookReferences().remove(request.getBookId());
+        Booklist updatedBookList = _bookLists.save(bookList);
+        return new BookListUpdateResponse(updatedBookList);
+    }
 }
