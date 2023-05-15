@@ -24,8 +24,8 @@ public class BookListController {
     }
 
     @PatchMapping("/addToBookList")
-    public BookListUpdateResponse addToBooklist(@RequestBody BookListUpdateRequest request){
-        return bookLists.addToBookList(request);
+    public BookListUpdateResponse addToBooklist(@RequestBody BookListUpdateRequest request, Principal principal){
+        return bookLists.addToBookList(request,principal.getName());
     }
 
     @PatchMapping("/removeFromBookList")

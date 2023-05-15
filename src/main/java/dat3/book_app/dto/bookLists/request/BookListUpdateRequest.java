@@ -14,4 +14,5 @@ public class BookListUpdateRequest {
     private String bookId = "";
     private String bookListId = "";
     private String title = "";
+    private String username = "";
 }

@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class LoginResponse {
-
   private String username;
   private String token;
   private List<String> roles;

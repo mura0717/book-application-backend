@@ -10,7 +10,7 @@ public interface BookLists {
     List<BookListWithReferences> getBookListWithReferences(String username);
     List<BookListsTitleResponse> getBookListWithTitles(String username);
     BookListWithBooks getBookListWithBooks(String id);
-    BookListUpdateResponse addToBookList(BookListUpdateRequest request);
+    BookListUpdateResponse addToBookList(BookListUpdateRequest request, String loggedInUsername);
     boolean removeFromBookList(BookListUpdateRequest request);
     BookListCreateResponse createBookList(BookListCreateRequest request, String username);
     boolean bookAlreadyAdded(String bookListId, String bookReference);
