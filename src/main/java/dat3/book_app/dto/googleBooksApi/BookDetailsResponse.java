@@ -1,13 +1,11 @@
-package dat3.book_app.dto.books;
+package dat3.book_app.dto.googleBooksApi;
 
-import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
-import dat3.book_app.entity.books.GoogleBook;
+import dat3.book_app.entity.googleBooksApi.GoogleBook;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

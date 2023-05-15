@@ -1,8 +1,8 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
-import dat3.book_app.dto.books.search.BookSearchResponse;
-import dat3.book_app.entity.books.GoogleBook;
+import dat3.book_app.dto.googleBooksApi.pagination.BookPaginatedResponse;
+import dat3.book_app.dto.googleBooksApi.search.BookSearchResponse;
+import dat3.book_app.entity.googleBooksApi.GoogleBook;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksV1Filters;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksV1QueryUrls;

@@ -45,14 +45,15 @@ public class UserBookLists implements BookLists {
     }
 
     @Override
-    public BookListUpdateResponse addToBookList(BookListUpdateRequest request) {
+    public BookListUpdateResponse addToBookList(BookListUpdateRequest request, String loggedInUsername) {
+        if(!request.getUsername().equals(loggedInUsername))
+            return new BookListUpdateResponse("It seems you are trying to add a favorite with wrong credentials. Calling the fbi..",false);
         var bookList = _bookLists.findById(request.getBookListId())
                 .orElse(null);
         if(bookList == null)
             return new BookListUpdateResponse("BookList not found",false);
         var bookReferences = bookList.getBookReferences();
-        var isPresent = bookReferences.contains(request.getBookId());
-        if(isPresent)
+        if(bookReferences.contains(request.getBookId()))
             return new BookListUpdateResponse("Book already added",false);
         bookReferences.add(request.getBookId());
         _bookLists.save(bookList);
