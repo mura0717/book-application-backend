@@ -2,21 +2,18 @@ package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
-import dat3.book_app.dto.bookLists.response.BookListUpdateResponse;
-import dat3.book_app.dto.bookLists.response.BookListWithBooks;
 import dat3.book_app.dto.bookLists.response.BookListWithReferences;
 import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
 import dat3.book_app.entity.bookLists.Booklist;
+import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.security.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
-
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.NOT_MODIFIED;
 
 @Service
 public class BookListsService implements BookLists {
@@ -67,16 +64,28 @@ public class BookListsService implements BookLists {
     }
 
     @Override
-    public BookListsTitleResponse createBookList(BookListCreateRequest request, String username) {
+    public boolean removeFromBookList(BookListUpdateRequest request) {
+        var bookList = _bookLists.findById(request.getBookListId())
+                .orElse(null);
+        if(bookList == null)
+            return false;
+        bookList.getBookReferences().remove(request.getBookId());
+        _bookLists.save(bookList);
+        return true;
+    }
+
+    @Override
+    public BookListCreateResponse createBookList(BookListCreateRequest request, String username) {
         var exists = _bookLists.existsByTitleLike(request.getTitle());
         if(exists)
-            throw new HttpServerErrorException(NOT_MODIFIED,"Already exists");
+            return new BookListCreateResponse("Booklist already exist",false);
         var member = _members.findByUsernameLike(username).orElse(null);
         if(member == null)
-            throw new HttpServerErrorException(NOT_MODIFIED,"Member not found");
+            return new BookListCreateResponse("Member doesn't exist",false);
         var bookList = request.toBookList(member);
         var saved = _bookLists.saveAndFlush(bookList);
-        return new BookListsTitleResponse(saved);
+        var count = _bookLists.count();
+        return new BookListCreateResponse("OK", count,true,saved);
     }
 
     @Override
@@ -109,12 +118,12 @@ public class BookListsService implements BookLists {
         return new BookListUpdateResponse(updatedBookList);
     }
 
-    @Override
+/*    @Override
     public BookListUpdateResponse removeFromBookList (BookListUpdateRequest request){
         Booklist bookList = _bookLists.findById(request.getBookListId()).orElseThrow(() ->
         new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
         bookList.getBookReferences().remove(request.getBookId());
         Booklist updatedBookList = _bookLists.save(bookList);
         return new BookListUpdateResponse(updatedBookList);
-    }
+    }*/
 }

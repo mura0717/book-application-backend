@@ -6,8 +6,6 @@ import java.util.HashMap;
 
 @Service
 public class GoogleBooksV1Filters implements GoogleBooksFilters {
-
-
     @Override
     public HashMap<String, String> genres() {
         HashMap<String, String> genres = new HashMap<>() {{

@@ -2,10 +2,7 @@ package dat3.book_app.api;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
-import dat3.book_app.dto.bookLists.response.BookListWithBooks;
-import dat3.book_app.dto.bookLists.response.BookListWithReferences;
-import dat3.book_app.dto.bookLists.response.BookListUpdateResponse;
-import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
+import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +28,11 @@ public class BookListController {
         return bookLists.addToBookList(request);
     }
 
+    @PatchMapping("/removeFromBookList")
+    public boolean removeFromBookList(@RequestBody BookListUpdateRequest request){
+        return bookLists.removeFromBookList(request);
+    }
+
     @GetMapping
     public List<BookListWithReferences> bookLists(Principal principal){
         if(principal == null)
@@ -44,7 +46,7 @@ public class BookListController {
     }
 
     @PostMapping("/create")
-    public BookListsTitleResponse create(@RequestBody BookListCreateRequest request, Principal principal){
+    public BookListCreateResponse create(@RequestBody BookListCreateRequest request, Principal principal){
         return bookLists.createBookList(request,principal.getName());
     }
 

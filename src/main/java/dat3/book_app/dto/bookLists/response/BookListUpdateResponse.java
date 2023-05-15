@@ -14,7 +14,5 @@ public class BookListUpdateResponse {
     private String message;
     private boolean status;
 
-    public BookListUpdateResponse(Booklist updatedBookList) {
-
-    }
+    public BookListUpdateResponse(Booklist updatedBookList) {}
 }

@@ -1,13 +1,16 @@
 package dat3.book_app.api;
 
 import dat3.book_app.dto.books.BookDetailsResponse;
+import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
 import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.books.search.BookSearchResponse;
 import dat3.book_app.entity.books.GoogleBook;
 import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import dat3.book_app.service.openAI.AIBookService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,16 +40,22 @@ public class BookController {
     }
 
     @GetMapping("search")
-    public List<GoogleBook> searchedBooks(@RequestParam String query) {
+    public List<BookSearchResponse> searchedBooks(@RequestParam String query) {
         return googleBooks.bySearch(query);
     }
 
     @GetMapping("slice")
-    public List<GoogleBook> slicedBooks(@RequestParam Optional<String> genre) {
+    public List<BookPaginatedResponse> slicedBooks(@RequestParam Optional<String> genre) {
         if (genre.isPresent())
             return googleBooks.sliceWithGenre(genre.get());
         return googleBooks.slice();
     }
+
+    @GetMapping("available-genres")
+    public HashMap<String, String> genres() {
+        return googleBooks.availableGenres();
+    }   
+
     @GetMapping("recommendations")
     public List<BookRecommendationResponse> recommended(String author, String title){
         var aiResponse = aiBookService.recommendations(author,title,5);
