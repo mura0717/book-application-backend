@@ -2,10 +2,7 @@ package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
-import dat3.book_app.dto.bookLists.response.BookListBookRefResponse;
-import dat3.book_app.dto.bookLists.response.BookListUpdateResponse;
-import dat3.book_app.dto.bookLists.response.BookListWithBooks;
-import dat3.book_app.dto.bookLists.response.BookListWithReferences;
+import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.entity.Member;
 import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.repository.BooklistRepository;
@@ -14,6 +11,7 @@ import dat3.security.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -61,23 +59,20 @@ class BookListsServiceTest {
         String bookId1 = "book1";
         String bookId2 = "book2";
         String bookId3 = "book3";
-        String bookId4 = "book4";
-        String bookId5 = "book5";
 
         booklist1.setTitle("MyBookList1");
         booklist2.setTitle("MyBookList2");
         booklist3.setTitle("MyBookList3");
 
-        booklist1.setBookReferences(List.of(bookId1, bookId2, bookId3));
-        booklist2.setBookReferences(List.of(bookId4, bookId5));
-        booklist3.setBookReferences(List.of(bookId1, bookId2, bookId3, bookId4, bookId5));
+        booklist1.setBookReferences(List.of(bookId1));
+        booklist2.setBookReferences(List.of(bookId2, bookId3));
+        booklist3.setBookReferences(List.of(bookId1, bookId2, bookId3));
 
         member1 = new Member("user1", encodedPassword, "user1.&a.dk");
         member2 = new Member("user2", encodedPassword, "user2.&a.dk");
+
         member1.setBooklists(Arrays.asList(booklist1, booklist2));
-        //member1.getBooklists().add(booklist1);
-        //member1.getBooklists().add(booklist2);
-        member2.setBooklists(List.of(booklist3));
+        member2.setBooklists(Arrays.asList(booklist3));
 
         bookListsService = new BookListsService(bookListRepository, googleBooksApi, memberRepository);
     }
@@ -86,12 +81,13 @@ class BookListsServiceTest {
     @Test
     void getBookListWithReferences() {
         when(bookListRepository.findByMember_UsernameLike("user1")).thenReturn(List.of(booklist1));
-        assertEquals(1, bookListsService.getBookListWithReferences("user1").size());
-        System.out.println(member1.getBooklists().get(1).getId());
+
+        assertEquals(1, bookListsService.getBookListWithReferences(member1.getUsername()).size());
         assertEquals("MyBookList1", bookListsService.getBookListWithReferences("user1").get(0).getTitle());
-        assertEquals(3, bookListsService.getBookListWithReferences("user1").get(0).getListCount());
+        assertEquals(1, bookListsService.getBookListWithReferences(member1.getUsername()).get(0).getListCount());
+
         when(bookListRepository.findByMember_UsernameLike("user2")).thenReturn(List.of(booklist2));
-        assertEquals(1, bookListsService.getBookListWithReferences("user2").size());
+        assertEquals(1, bookListsService.getBookListWithReferences(member2.getUsername()).size());
         assertEquals("MyBookList2", bookListsService.getBookListWithReferences("user2").get(0).getTitle());
         assertEquals(2, bookListsService.getBookListWithReferences("user2").get(0).getListCount());
     }
@@ -108,10 +104,14 @@ class BookListsServiceTest {
 
     @Test
     void getBookListWithBooks() {
-        when(bookListRepository.findById("booklist1")).thenReturn(java.util.Optional.ofNullable(booklist1));
+        when(bookListRepository.findById(booklist1.getTitle())).thenReturn(java.util.Optional.ofNullable(booklist1));
         List<String> expectedBookTitles = booklist1.getBookReferences();
-        List<BookListBookRefResponse> actualBookTitles = bookListsService.getBookListWithBooks("booklist1").getBooks().stream().toList();
-        System.out.println(bookListsService.getBookListWithBooks("booklist1").getBooks().size());
+        List<BookListBookRefResponse> actualBookTitles = bookListsService.getBookListWithBooks("MyBookList1");
+
+        System.out.println(expectedBookTitles);
+        System.out.println(actualBookTitles);
+        System.out.println(bookListsService.getBookListWithBooks(booklist1.getTitle()).getBooks().size());
+
         assertEquals(expectedBookTitles, actualBookTitles);
     }
 
@@ -126,12 +126,13 @@ class BookListsServiceTest {
         BookListUpdateRequest request = new BookListUpdateRequest();
         request.setBookId(bookId);
         request.setBookListId(bookListId);
+        request.setUsername("user1");
 
         when(bookListRepository.findById(bookListId)).thenReturn(Optional.of(bookList));
         when(bookListRepository.save(bookList)).thenReturn(bookList);
 
         // Act
-        BookListUpdateResponse response = bookListsService.addToBookList(request);
+        BookListUpdateResponse response = bookListsService.addToBookList(request, "user1");
 
         // Assert
         assertEquals("Ok", response.getMessage());
@@ -169,7 +170,31 @@ class BookListsServiceTest {
 
     @Test
     void createBookList() {
+        // Arrange
+        Booklist booklist = new Booklist();
+        booklist.setTitle("MyBookList4");
+        booklist.setId("bookList123");
 
+        when(memberRepository.save(any(Member.class))).thenReturn(member1);
+        when(bookListRepository.save(any(Booklist.class))).thenReturn(booklist);
+
+
+        // Act
+        BookListCreateRequest request = new BookListCreateRequest();
+        request.setTitle("MyBookList4");
+        request.toBookList(member1);
+
+        System.out.println(request.getTitle());
+
+        BookListCreateResponse response = bookListsService.createBookList(request, member1.getUsername());
+
+        System.out.println(member1.getUsername());
+        System.out.println(response.isStatus());
+        System.out.println(response.getMessage());
+
+        // Assert
+        assertTrue(response.isStatus());
+        assertEquals(2, response.getListCount());
     }
 
     @Test
@@ -188,16 +213,55 @@ class BookListsServiceTest {
 
         // Assert
         assertTrue(result);
-
     }
 
     @Test
     void deleteBooklist() {
 
+        Booklist booklist = new Booklist();
+        booklist.setId("booklist1");
+        booklist.setTitle("MyBookList1");
+        booklist.setMember(member1);
+
+        when(bookListRepository.findById("booklist1")).thenReturn(Optional.of(booklist));
+        bookListsService.deleteBookList("booklist1");
+
+        verify(bookListRepository, times(1)).deleteById("booklist1");
+
     }
 
     @Test
     void editBookList() {
+        // Arrange
+        BookListUpdateRequest editRequest = new BookListUpdateRequest();
+        editRequest.setBookListId("booklist1");
+        editRequest.setTitle("MyBookList1");
+        editRequest.setUsername(member1.getUsername());
+
+        System.out.println(editRequest.getBookListId());
+        System.out.println(editRequest.getTitle());
+        System.out.println(editRequest.getUsername());
+
+        Booklist editedBookList = new Booklist();
+        editedBookList.setId(editRequest.getBookListId());
+        editedBookList.setTitle("MyBookList2");
+        editedBookList.setMember(member1);
+        System.out.println(editedBookList.getId());
+        System.out.println(editedBookList.getTitle());
+        System.out.println(editedBookList.getMember().getUsername());
+
+        when(bookListRepository.findById("booklist1")).thenReturn(Optional.of(booklist1));
+        when(bookListRepository.save(any(Booklist.class))).thenReturn(editedBookList);
+
+        // Act
+        BookListUpdateResponse response = bookListsService.editBookList(editRequest, "booklist1");
+        System.out.println(response.getMessage());
+        System.out.println(response.isStatus());
+
+        // Assert
+        assertEquals("Ok", response.getMessage());
+        assertEquals(true, response.isStatus());
+
 
     }
 }
