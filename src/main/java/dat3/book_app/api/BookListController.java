@@ -1,6 +1,8 @@
 package dat3.book_app.api;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListDeleteRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.service.bookLists.BookLists;
@@ -24,8 +26,8 @@ public class BookListController {
     }
 
     @PatchMapping("/addToBookList")
-    public BookListUpdateResponse addToBooklist(@RequestBody BookListUpdateRequest request, Principal principal){
-        return bookLists.addToBookList(request,principal.getName());
+    public BookListUpdateResponse addToBooklist(@RequestBody BookListUpdateRequest request){
+        return bookLists.addToBookList(request);
     }
 
     @PatchMapping("/removeFromBookList")
@@ -61,13 +63,14 @@ public class BookListController {
     }
 
     @DeleteMapping("/delete")
-    public BookListUpdateResponse delete(@RequestBody String id){
+    public BookListUpdateResponse delete(@RequestBody BookListDeleteRequest request){
+        String id = request.getId();
         return bookLists.deleteBookList(id);
     }
 
     @PatchMapping("/edit")
-    public BookListUpdateResponse edit(@RequestBody BookListUpdateRequest request, String bookListId){
-        return bookLists.editBookList(request,bookListId);
+    public BookListUpdateResponse edit(@RequestBody BookListEditRequest request){
+        return bookLists.editBookList(request);
     }
 
 }

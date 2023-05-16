@@ -1,6 +1,7 @@
 package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.response.BookListWithReferences;
 import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
@@ -49,9 +50,7 @@ public class BookListsService implements BookLists {
     }
 
     @Override
-    public BookListUpdateResponse addToBookList(BookListUpdateRequest request, String loggedInUsername) {
-        if(!request.getUsername().equals(loggedInUsername))
-            return new BookListUpdateResponse("It seems you are trying to add a favorite with wrong credentials. Calling the fbi..",false);
+    public BookListUpdateResponse addToBookList(BookListUpdateRequest request) {
         var bookList = _bookLists.findById(request.getBookListId())
                 .orElse(null);
         if(bookList == null)
@@ -99,11 +98,12 @@ public class BookListsService implements BookLists {
 
     @Override
     public BookListUpdateResponse deleteBookList(String bookListId){
+        System.out.println(bookListId);
         var bookList = _bookLists.findById(bookListId);
         if(bookList.isEmpty())
             return new BookListUpdateResponse("BookList not found",false);
         try{
-            _bookLists.deleteById(bookListId);
+            _bookLists.delete(bookList.get());
             return new BookListUpdateResponse("Ok",true);
         } catch (Exception e){
             return new BookListUpdateResponse("Error",false);
@@ -111,7 +111,8 @@ public class BookListsService implements BookLists {
     }
 
     @Override
-    public BookListUpdateResponse editBookList(BookListUpdateRequest request, String bookListId){
+    public BookListUpdateResponse editBookList(BookListEditRequest request){
+        String bookListId = request.getBookListId();
         Booklist bookListToEdit = _bookLists.findById(bookListId).orElseThrow(() ->
         new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
         bookListToEdit.setTitle(request.getTitle());

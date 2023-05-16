@@ -1,6 +1,7 @@
 package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.response.*;
 
@@ -10,13 +11,13 @@ public interface BookLists {
     List<BookListWithReferences> getBookListWithReferences(String username);
     List<BookListsTitleResponse> getBookListWithTitles(String username);
     BookListWithBooks getBookListWithBooks(String id);
-    BookListUpdateResponse addToBookList(BookListUpdateRequest request, String loggedInUsername);
+    BookListUpdateResponse addToBookList(BookListUpdateRequest request);
     boolean removeFromBookList(BookListUpdateRequest request);
     BookListCreateResponse createBookList(BookListCreateRequest request, String username);
     boolean bookAlreadyAdded(String bookListId, String bookReference);
 
     BookListUpdateResponse deleteBookList(String bookListId);
 
-    BookListUpdateResponse editBookList(BookListUpdateRequest request, String bookListId);
+    BookListUpdateResponse editBookList(BookListEditRequest request);
 
 }
