@@ -1,7 +1,7 @@
-package dat3.book_app.entity.books;
+package dat3.book_app.entity.googleBooksApi;
 
-import dat3.book_app.entity.books.sale.GoogleBooksSaleInfo;
-import dat3.book_app.entity.books.volumeInfo.GoogleBookVolumeInfo;
+import dat3.book_app.entity.googleBooksApi.sale.GoogleBooksSaleInfo;
+import dat3.book_app.entity.googleBooksApi.volumeInfo.GoogleBookVolumeInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

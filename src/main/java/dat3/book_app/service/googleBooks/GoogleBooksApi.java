@@ -1,13 +1,13 @@
 package dat3.book_app.service.googleBooks;
 
-import dat3.book_app.dto.bookLists.response.BookListBook;
-import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
-import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
-import dat3.book_app.dto.books.search.BookSearchResponse;
+import dat3.book_app.dto.bookLists.response.BookListBookRefResponse;
+import dat3.book_app.dto.googleBooksApi.BookDetailsResponse;
+import dat3.book_app.dto.googleBooksApi.pagination.BookPaginatedResponse;
+import dat3.book_app.dto.googleBooksApi.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.googleBooksApi.search.BookSearchResponse;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
-import dat3.book_app.entity.books.GoogleBook;
-import dat3.book_app.entity.books.GoogleBooksAPIResponse;
+import dat3.book_app.entity.googleBooksApi.GoogleBook;
+import dat3.book_app.entity.googleBooksApi.GoogleBooksAPIResponse;
 import dat3.book_app.factory.googleBooks.filters.GoogleBooksFilters;
 import dat3.book_app.factory.googleBooks.query.GoogleBooksQueryUrls;
 import dat3.book_app.service.http.IHttpFetch;
@@ -40,14 +40,14 @@ public class GoogleBooksApi implements IGoogleBooksApi {
     }
 
     @Override
-    public List<BookListBook> getBooksByReferences(List<String> references) {
+    public List<BookListBookRefResponse> getBooksByReferences(List<String> references) {
         return references.stream().map(r -> {
                 var query = String.format("%s/%s",Uri,r);
                 return _httpFetch.getRequestAsync(query, GoogleBook.class);
             })
             .map(Mono::block)
             .filter(Objects::nonNull)
-            .map(BookListBook::new).toList();
+            .map(BookListBookRefResponse::new).toList();
     }
 
     @Override

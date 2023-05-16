@@ -11,13 +11,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class BookListWithBooks {
-    public BookListWithBooks(Booklist list, List<BookListBook> books) {
+    public BookListWithBooks(Booklist list, List<BookListBookRefResponse> books) {
         title = list.getTitle();
         id = list.getId();
         this.books = books;
     }
 
-    private List<BookListBook> books = new ArrayList<>();
+    private List<BookListBookRefResponse> books = new ArrayList<>();
     private String title;
     private String id;
 }

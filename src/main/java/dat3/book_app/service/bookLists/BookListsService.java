@@ -2,6 +2,9 @@ package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
+import dat3.book_app.dto.bookLists.response.BookListWithReferences;
+import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
+import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
@@ -11,13 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
+
 @Service
-public class UserBookLists implements BookLists {
+public class BookListsService implements BookLists {
     private final BooklistRepository _bookLists;
     private final IGoogleBooksApi googleBooks;
     private final MemberRepository _members;
 
-    public UserBookLists(BooklistRepository repository, IGoogleBooksApi googleBooks, MemberRepository members) {
+    public BookListsService(BooklistRepository repository, IGoogleBooksApi googleBooks, MemberRepository members) {
         _bookLists = repository;
         this.googleBooks = googleBooks;
         _members = members;
@@ -45,14 +49,15 @@ public class UserBookLists implements BookLists {
     }
 
     @Override
-    public BookListUpdateResponse addToBookList(BookListUpdateRequest request) {
+    public BookListUpdateResponse addToBookList(BookListUpdateRequest request, String loggedInUsername) {
+        if(!request.getUsername().equals(loggedInUsername))
+            return new BookListUpdateResponse("It seems you are trying to add a favorite with wrong credentials. Calling the fbi..",false);
         var bookList = _bookLists.findById(request.getBookListId())
                 .orElse(null);
         if(bookList == null)
             return new BookListUpdateResponse("BookList not found",false);
         var bookReferences = bookList.getBookReferences();
-        var isPresent = bookReferences.contains(request.getBookId());
-        if(isPresent)
+        if(bookReferences.contains(request.getBookId()))
             return new BookListUpdateResponse("Book already added",false);
         bookReferences.add(request.getBookId());
         _bookLists.save(bookList);
@@ -91,4 +96,35 @@ public class UserBookLists implements BookLists {
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found");
         return bookList.getBookReferences().contains(bookReference);
     }
+
+    @Override
+    public BookListUpdateResponse deleteBookList(String bookListId){
+        var bookList = _bookLists.findById(bookListId);
+        if(bookList.isEmpty())
+            return new BookListUpdateResponse("BookList not found",false);
+        try{
+            _bookLists.deleteById(bookListId);
+            return new BookListUpdateResponse("Ok",true);
+        } catch (Exception e){
+            return new BookListUpdateResponse("Error",false);
+        }
+    }
+
+    @Override
+    public BookListUpdateResponse editBookList(BookListUpdateRequest request, String bookListId){
+        Booklist bookListToEdit = _bookLists.findById(bookListId).orElseThrow(() ->
+        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        bookListToEdit.setTitle(request.getTitle());
+        Booklist updatedBookList = _bookLists.save(bookListToEdit);
+        return new BookListUpdateResponse(updatedBookList);
+    }
+
+/*    @Override
+    public BookListUpdateResponse removeFromBookList (BookListUpdateRequest request){
+        Booklist bookList = _bookLists.findById(request.getBookListId()).orElseThrow(() ->
+        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        bookList.getBookReferences().remove(request.getBookId());
+        Booklist updatedBookList = _bookLists.save(bookList);
+        return new BookListUpdateResponse(updatedBookList);
+    }*/
 }

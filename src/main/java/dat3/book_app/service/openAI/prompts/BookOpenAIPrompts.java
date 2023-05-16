@@ -1,12 +1,13 @@
-package dat3.book_app.service.openAI;
+package dat3.book_app.service.openAI.prompts;
 
 import dat3.book_app.dto.openai.requests.OpenAiDavinciPrompt;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookApiPrompts {
+public class BookOpenAIPrompts implements BookAIPrompts<OpenAiDavinciPrompt> {
     private final int MaxTokens = 300;
 
+    @Override
     public OpenAiDavinciPrompt summary(String author, String title, int length){
         var message = String.format("""
                 Give me a summary of the book '%s' by '%s' in no more than %d words
@@ -14,6 +15,7 @@ public class BookApiPrompts {
         return new OpenAiDavinciPrompt(MaxTokens,message);
     }
 
+    @Override
     public OpenAiDavinciPrompt similarBooks(String description, int maxResults){
         var messages = String.format("""
                 Please provide me with %d books which description is similar to the following:
@@ -36,6 +38,7 @@ public class BookApiPrompts {
         return new OpenAiDavinciPrompt(MaxTokens,messages);
     }
 
+    @Override
     public OpenAiDavinciPrompt similarBooks(String author, String title, int maxResults){
         var messages = String.format("""
                 Please provide me with %d books which is similar to the following book:

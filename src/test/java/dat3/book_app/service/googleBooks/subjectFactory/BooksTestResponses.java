@@ -1,6 +1,6 @@
 package dat3.book_app.service.googleBooks.subjectFactory;
 
-import dat3.book_app.dto.books.BookDetailsResponse;
+import dat3.book_app.dto.googleBooksApi.BookDetailsResponse;
 import org.hibernate.cfg.NotYetImplementedException;
 
 import java.util.ArrayList;

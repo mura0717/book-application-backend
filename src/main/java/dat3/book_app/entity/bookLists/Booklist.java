@@ -25,5 +25,10 @@ public class Booklist extends Entities {
 
     @ManyToOne
     private Member member;
+
+
+    public Booklist(String listTitle) {
+
+    }
 }
 
