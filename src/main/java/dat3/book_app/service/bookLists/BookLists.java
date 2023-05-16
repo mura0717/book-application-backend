@@ -15,7 +15,7 @@ public interface BookLists {
     BookListCreateResponse createBookList(BookListCreateRequest request, String username);
     boolean bookAlreadyAdded(String bookListId, String bookReference);
 
-    BookListUpdateResponse removeBookList(String bookListId);
+    BookListUpdateResponse deleteBookList(String bookListId);
 
     BookListUpdateResponse editBookList(BookListUpdateRequest request, String bookListId);
 

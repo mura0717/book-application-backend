@@ -59,4 +59,15 @@ public class BookListController {
     public boolean checkIfAlreadyAdded(String bookListId, String bookReference){
         return bookLists.bookAlreadyAdded(bookListId,bookReference);
     }
+
+    @DeleteMapping("/delete")
+    public BookListUpdateResponse delete(@RequestBody String id){
+        return bookLists.deleteBookList(id);
+    }
+
+    @PatchMapping("/edit")
+    public BookListUpdateResponse edit(@RequestBody BookListUpdateRequest request, String bookListId){
+        return bookLists.editBookList(request,bookListId);
+    }
+
 }

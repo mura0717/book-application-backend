@@ -98,7 +98,7 @@ public class BookListsService implements BookLists {
     }
 
     @Override
-    public BookListUpdateResponse removeBookList(String bookListId){
+    public BookListUpdateResponse deleteBookList(String bookListId){
         var bookList = _bookLists.findById(bookListId);
         if(bookList.isEmpty())
             return new BookListUpdateResponse("BookList not found",false);

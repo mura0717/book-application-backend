@@ -192,7 +192,7 @@ class BookListsServiceTest {
     }
 
     @Test
-    void removeBookList() {
+    void deleteBooklist() {
 
     }
 
