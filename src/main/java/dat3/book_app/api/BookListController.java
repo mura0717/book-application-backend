@@ -1,6 +1,8 @@
 package dat3.book_app.api;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListDeleteRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.service.bookLists.BookLists;
@@ -59,4 +61,16 @@ public class BookListController {
     public boolean checkIfAlreadyAdded(String bookListId, String bookReference){
         return bookLists.bookAlreadyAdded(bookListId,bookReference);
     }
+
+    @DeleteMapping("/delete")
+    public BookListUpdateResponse delete(@RequestBody BookListDeleteRequest request){
+        String id = request.getId();
+        return bookLists.deleteBookList(id);
+    }
+
+    @PatchMapping("/edit")
+    public BookListUpdateResponse edit(@RequestBody BookListEditRequest request){
+        return bookLists.editBookList(request);
+    }
+
 }

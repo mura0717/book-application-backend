@@ -1,13 +1,13 @@
 package dat3.book_app.api;
 
-import dat3.book_app.dto.books.BookDetailsResponse;
-import dat3.book_app.dto.books.pagination.BookPaginatedResponse;
-import dat3.book_app.dto.books.recommendations.BookRecommendationResponse;
-import dat3.book_app.dto.books.search.BookSearchResponse;
-import dat3.book_app.entity.books.GoogleBook;
+import dat3.book_app.dto.googleBooksApi.BookDetailsResponse;
+import dat3.book_app.dto.googleBooksApi.pagination.BookPaginatedResponse;
+import dat3.book_app.dto.googleBooksApi.recommendations.BookRecommendationResponse;
+import dat3.book_app.dto.googleBooksApi.search.BookSearchResponse;
+import dat3.book_app.entity.googleBooksApi.GoogleBook;
 import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
-import dat3.book_app.service.openAI.AIBookService;
+import dat3.book_app.service.openAI.manager.AIBookManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,11 +19,11 @@ import java.util.Optional;
 @CrossOrigin
 public class BookController {
     private final IGoogleBooksApi googleBooks;
-    private final AIBookService aiBookService;
+    private final AIBookManager aiBookService;
 
     private final BooklistRepository booklistRepository;
 
-    public BookController(IGoogleBooksApi googleBooks, AIBookService aiBookService, BooklistRepository booklistRepository) {
+    public BookController(IGoogleBooksApi googleBooks, AIBookManager aiBookService, BooklistRepository booklistRepository) {
         this.googleBooks = googleBooks;
         this.aiBookService = aiBookService;
         this.booklistRepository = booklistRepository;

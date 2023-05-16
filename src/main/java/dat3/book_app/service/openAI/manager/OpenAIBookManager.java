@@ -1,18 +1,21 @@
-package dat3.book_app.service.openAI;
+package dat3.book_app.service.openAI.manager;
 
+import dat3.book_app.dto.openai.requests.OpenAiDavinciPrompt;
 import dat3.book_app.entity.bookRecommendations.BookRecommendation;
 import dat3.book_app.entity.bookRecommendations.BookRecommendations;
 import dat3.book_app.entity.openAI.OpenAiResponse;
+import dat3.book_app.service.openAI.prompts.BookAIPrompts;
+import dat3.book_app.service.openAI.requests.IOpenAIRequest;
 import dat3.book_app.utils.JsonDeserializer;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OpenAiBookService implements AIBookService {
-    private final IOpenAIRequest _httpRequest;
-    private final BookApiPrompts _bookPromptMessages;
-    public OpenAiBookService(IOpenAIRequest httpRequest, BookApiPrompts bookPromptMessages) {
+public class OpenAIBookManager implements AIBookManager {
+    private final IOpenAIRequest<OpenAiDavinciPrompt> _httpRequest;
+    private final BookAIPrompts<OpenAiDavinciPrompt> _bookPromptMessages;
+    public OpenAIBookManager(IOpenAIRequest<OpenAiDavinciPrompt> httpRequest, BookAIPrompts<OpenAiDavinciPrompt> bookPromptMessages) {
         _httpRequest = httpRequest;
         _bookPromptMessages = bookPromptMessages;
     }

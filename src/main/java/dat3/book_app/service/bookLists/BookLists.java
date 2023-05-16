@@ -1,6 +1,7 @@
 package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
 import dat3.book_app.dto.bookLists.response.*;
 
@@ -14,4 +15,9 @@ public interface BookLists {
     boolean removeFromBookList(BookListUpdateRequest request);
     BookListCreateResponse createBookList(BookListCreateRequest request, String username);
     boolean bookAlreadyAdded(String bookListId, String bookReference);
+
+    BookListUpdateResponse deleteBookList(String bookListId);
+
+    BookListUpdateResponse editBookList(BookListEditRequest request);
+
 }

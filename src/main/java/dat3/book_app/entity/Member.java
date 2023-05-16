@@ -26,4 +26,5 @@ public class Member extends UserWithRoles {
 
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
+
 }

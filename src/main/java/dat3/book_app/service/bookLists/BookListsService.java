@@ -1,7 +1,11 @@
 package dat3.book_app.service.bookLists;
 
 import dat3.book_app.dto.bookLists.request.BookListCreateRequest;
+import dat3.book_app.dto.bookLists.request.BookListEditRequest;
 import dat3.book_app.dto.bookLists.request.BookListUpdateRequest;
+import dat3.book_app.dto.bookLists.response.BookListWithReferences;
+import dat3.book_app.dto.bookLists.response.BookListsTitleResponse;
+import dat3.book_app.entity.bookLists.Booklist;
 import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.repository.BooklistRepository;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
@@ -11,13 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
+
 @Service
-public class UserBookLists implements BookLists {
+public class BookListsService implements BookLists {
     private final BooklistRepository _bookLists;
     private final IGoogleBooksApi googleBooks;
     private final MemberRepository _members;
 
-    public UserBookLists(BooklistRepository repository, IGoogleBooksApi googleBooks, MemberRepository members) {
+    public BookListsService(BooklistRepository repository, IGoogleBooksApi googleBooks, MemberRepository members) {
         _bookLists = repository;
         this.googleBooks = googleBooks;
         _members = members;
@@ -51,8 +56,7 @@ public class UserBookLists implements BookLists {
         if(bookList == null)
             return new BookListUpdateResponse("BookList not found",false);
         var bookReferences = bookList.getBookReferences();
-        var isPresent = bookReferences.contains(request.getBookId());
-        if(isPresent)
+        if(bookReferences.contains(request.getBookId()))
             return new BookListUpdateResponse("Book already added",false);
         bookReferences.add(request.getBookId());
         _bookLists.save(bookList);
@@ -91,4 +95,37 @@ public class UserBookLists implements BookLists {
             throw new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found");
         return bookList.getBookReferences().contains(bookReference);
     }
+
+    @Override
+    public BookListUpdateResponse deleteBookList(String bookListId){
+        System.out.println(bookListId);
+        var bookList = _bookLists.findById(bookListId);
+        if(bookList.isEmpty())
+            return new BookListUpdateResponse("BookList not found",false);
+        try{
+            _bookLists.delete(bookList.get());
+            return new BookListUpdateResponse("Ok",true);
+        } catch (Exception e){
+            return new BookListUpdateResponse("Error",false);
+        }
+    }
+
+    @Override
+    public BookListUpdateResponse editBookList(BookListEditRequest request){
+        String bookListId = request.getBookListId();
+        Booklist bookListToEdit = _bookLists.findById(bookListId).orElseThrow(() ->
+        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        bookListToEdit.setTitle(request.getTitle());
+        Booklist updatedBookList = _bookLists.save(bookListToEdit);
+        return new BookListUpdateResponse(updatedBookList);
+    }
+
+/*    @Override
+    public BookListUpdateResponse removeFromBookList (BookListUpdateRequest request){
+        Booklist bookList = _bookLists.findById(request.getBookListId()).orElseThrow(() ->
+        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        bookList.getBookReferences().remove(request.getBookId());
+        Booklist updatedBookList = _bookLists.save(bookList);
+        return new BookListUpdateResponse(updatedBookList);
+    }*/
 }

@@ -1,4 +1,4 @@
-package dat3.book_app.entity.books;
+package dat3.book_app.entity.googleBooksApi;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
