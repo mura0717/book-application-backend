@@ -113,11 +113,12 @@ public class BookListsService implements BookLists {
     @Override
     public BookListUpdateResponse editBookList(BookListEditRequest request){
         String bookListId = request.getBookListId();
-        Booklist bookListToEdit = _bookLists.findById(bookListId).orElseThrow(() ->
-        new HttpServerErrorException(HttpStatus.NOT_FOUND,"Booklist not found"));
+        Booklist bookListToEdit = _bookLists.findById(bookListId).orElse(null);
+        if(bookListToEdit == null)
+            return new BookListUpdateResponse("Booklist not found",false);
         bookListToEdit.setTitle(request.getTitle());
-        Booklist updatedBookList = _bookLists.save(bookListToEdit);
-        return new BookListUpdateResponse(updatedBookList);
+        _bookLists.save(bookListToEdit);
+        return new BookListUpdateResponse("OK",true);
     }
 
 /*    @Override

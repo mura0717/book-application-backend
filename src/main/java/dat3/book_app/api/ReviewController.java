@@ -5,7 +5,6 @@ import dat3.book_app.dto.reviews.requests.ReviewUpdateRequest;
 import dat3.book_app.dto.reviews.responses.ReviewUpdateResponse;
 import dat3.book_app.service.reviews.BookReviews;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 

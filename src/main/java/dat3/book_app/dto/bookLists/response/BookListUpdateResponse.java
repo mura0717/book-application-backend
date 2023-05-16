@@ -13,6 +13,4 @@ import lombok.Setter;
 public class BookListUpdateResponse {
     private String message;
     private boolean status;
-
-    public BookListUpdateResponse(Booklist updatedBookList) {}
 }

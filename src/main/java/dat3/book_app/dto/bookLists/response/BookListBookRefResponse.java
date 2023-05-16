@@ -22,6 +22,10 @@ public class BookListBookRefResponse {
         image = googleBook.getVolumeInfo().getImageLinks().getThumbnail();
     }
 
+    public BookListBookRefResponse(String id) {
+        this.id = id;
+    }
+
     private String id;
     private String title;
     private ArrayList<String> authors;
