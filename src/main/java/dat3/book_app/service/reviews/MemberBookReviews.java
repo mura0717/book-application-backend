@@ -7,9 +7,8 @@ import dat3.book_app.repository.ReviewRepository;
 import dat3.security.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
-
+import java.security.Principal;
 import java.util.List;
-
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -24,15 +23,26 @@ public class MemberBookReviews implements BookReviews {
     }
 
     @Override
-    public List<ReviewUpdateResponse> reviews(String bookReference, String username) {
+    public List<ReviewUpdateResponse> unrestrictedReviews(String bookReference, Principal principal) {
         return _reviewRepository
                 .findByBookReferenceLike(bookReference)
                 .stream().map(review -> {
-                    var editable = review.getMember().getUsername().equals(username);
+                    boolean editable = false;
+                    if(principal != null)
+                        editable = review.getMember().getUsername().equals(principal.getName());
                     return ReviewUpdateResponse.fromReview(review,editable);
                 })
                 .toList();
+    }
 
+    @Override
+    public List<ReviewUpdateResponse> restrictedReviews(String bookReference) {
+        return _reviewRepository
+                .findByBookReferenceLike(bookReference)
+                .stream().map(review -> {
+                    return ReviewUpdateResponse.fromReview(review,false);
+                })
+                .toList();
     }
 
     @Override

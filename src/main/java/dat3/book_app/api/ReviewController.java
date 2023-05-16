@@ -24,8 +24,13 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<ReviewUpdateResponse> all(String bookReference, Principal principal){
-        return _bookReviews.reviews(bookReference,principal.getName());
+    public List<ReviewUpdateResponse> restricted(String bookReference){
+        return _bookReviews.restrictedReviews(bookReference);
+    }
+
+    @GetMapping("/unrestricted")
+    public List<ReviewUpdateResponse> unrestricted(String bookReference, Principal principal){
+        return _bookReviews.unrestrictedReviews(bookReference,principal);
     }
 
     @DeleteMapping("/delete")

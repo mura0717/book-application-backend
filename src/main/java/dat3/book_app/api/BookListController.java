@@ -8,7 +8,6 @@ import dat3.book_app.dto.bookLists.response.*;
 import dat3.book_app.service.bookLists.BookLists;
 import dat3.book_app.service.googleBooks.IGoogleBooksApi;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +71,4 @@ public class BookListController {
     public BookListUpdateResponse edit(@RequestBody BookListEditRequest request){
         return bookLists.editBookList(request);
     }
-
 }
