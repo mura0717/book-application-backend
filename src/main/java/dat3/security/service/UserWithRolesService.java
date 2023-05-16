@@ -62,6 +62,8 @@ public class UserWithRolesService {
     if(userWithRolesRepository.existsByEmail(body.getEmail())){
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"This email is used by another user");
     }
+    if(body.getPassword().isEmpty())
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Empty password not allowed");
     String pw = passwordEncoder.encode(body.getPassword());
     var userWithRoles = new Member(body.getUsername(), pw, body.getEmail());
     if(role !=null  ) {
