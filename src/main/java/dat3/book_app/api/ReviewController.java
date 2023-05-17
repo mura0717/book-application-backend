@@ -5,7 +5,6 @@ import dat3.book_app.dto.reviews.requests.ReviewUpdateRequest;
 import dat3.book_app.dto.reviews.responses.ReviewUpdateResponse;
 import dat3.book_app.service.reviews.BookReviews;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -25,8 +24,13 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<ReviewUpdateResponse> all(String bookReference, Principal principal){
-        return _bookReviews.reviews(bookReference,principal.getName());
+    public List<ReviewUpdateResponse> restricted(String bookReference){
+        return _bookReviews.restrictedReviews(bookReference);
+    }
+
+    @GetMapping("/unrestricted")
+    public List<ReviewUpdateResponse> unrestricted(String bookReference, Principal principal){
+        return _bookReviews.unrestrictedReviews(bookReference,principal);
     }
 
     @DeleteMapping("/delete")
